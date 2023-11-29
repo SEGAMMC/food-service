@@ -1,0 +1,37 @@
+Courier REST API
+
+GET /deliveries?status=active/complete
+
+Response:
+		{
+			"delivery": [
+				{
+					"order_id": "",
+					"restraunt": {
+						"address": "",
+						"distance": ""
+					},
+					"customer": {
+						"address": "",
+						"distance": ""
+					},
+					"payment": ""
+				}
+			],
+			"page_index": 0,
+			"page_count": 10
+		}
+
+POST /delivery/${id}/
+
+Request:
+		{
+			"order_action": "accept/complete"
+		}
+
+Response:
+
+200 OK
+400 Bad Request
+404 Not Found
+500 Internal Server Error

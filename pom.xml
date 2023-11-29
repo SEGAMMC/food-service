@@ -24,6 +24,8 @@
         <module>delivery-service</module>
         <module>kitchen-service</module>
         <module>notification-service</module>
+        <module>customer-service</module>
+        <module>courier-service</module>
     </modules>
 
     <properties>

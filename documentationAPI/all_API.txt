@@ -1,0 +1,159 @@
+Customer REST API
+
+*****GET /orders *****
+
+Response:
+200 OK
+
+{
+  "orders": [
+      {
+          "id": 1,
+          "restraunt": {
+              "name": ""
+          },
+          "timestamp": "",
+          "items": [
+              {
+                  "price": "",
+                  "quantity": "",
+                  "description": "",
+                  "image": ""
+              }
+          ]
+      }
+  ],
+  "page_index": 0,
+  "page_count": 10
+}
+
+
+500 Internal Server Error
+400 Bad Request
+{
+    "orders": [],
+    "page_index": 0,
+    "page_count": 0
+}
+
+
+
+*****GET /order/${id} *****
+
+Response:
+
+200 OK
+{
+  "id": 1,
+  "restraunt": {
+      "name": ""
+  },
+  "timestamp": "",
+  "items": [
+      {
+          "price": "",
+          "quantity": "",
+          "description": "",
+          "image": ""
+      }
+  ]
+}
+
+
+400 Bad Request
+404 Not Found
+500 Internal Server Error
+
+***** POST /order *****
+
+Request:
+
+{
+    "restraunt_id": "",
+    "menu_items": [
+        {
+            "quantity": "",
+            "menu_item_id": ""
+        }
+    ]
+}
+
+Response:
+
+200 OK
+{
+  "id": "",
+  "secret_payment_url": "",
+  "estimated_time_of_arrival": ""
+}
+
+
+
+
+Restaurant REST API
+
+GET /orders?status=active/complete/denied
+
+Response:
+
+
+{
+    "orders": [
+        {
+            "id": "",
+            "menu_items": [
+                {
+                    "quantity": "",
+                    "menu_item_id": ""
+                }
+            ]            
+        }
+    ],
+    "page_index": 0,
+    "page_count": 10
+}
+
+
+Courier REST API
+
+GET /deliveries?status=active/complete
+
+Response:
+
+
+{
+    "delivery": [
+        {
+            "order_id": "",
+            "restraunt": {
+                "address": "",
+                "distance": ""
+            },
+            "customer": {
+                "address": "",
+                "distance": ""
+            },
+            "payment": ""
+        }
+    ],
+    "page_index": 0,
+    "page_count": 10
+}
+
+POST /delivery/${id}/
+
+Request:
+
+
+{
+    "order_action": "accept/complete"
+}
+
+Response:
+
+
+
+200 OK
+400 Bad Request
+404 Not Found
+500 Internal Server Error

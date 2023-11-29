@@ -1,0 +1,20 @@
+Restaurant REST API
+
+GET /orders?status=active/complete/denied
+
+Response:
+		{
+			"orders": [
+				{
+					"id": "",
+					"menu_items": [
+						{
+							"quantity": "",
+							"menu_item_id": ""
+						}
+					]            
+				}
+			],
+			"page_index": 0,
+			"page_count": 10
+		}
