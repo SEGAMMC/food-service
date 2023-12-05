@@ -1,12 +1,6 @@
 package ru.liga.restaurantservice.service;
 
 import org.springframework.stereotype.Service;
-import ru.liga.orderservice.dto.request.NewOrderRequest;
-import ru.liga.orderservice.dto.request.OrderStatusRequest;
-import ru.liga.orderservice.dto.response.OrderPaymentResponse;
-import ru.liga.orderservice.dto.response.OrderResponse;
-
-import java.util.List;
 import java.util.UUID;
 
 /**
