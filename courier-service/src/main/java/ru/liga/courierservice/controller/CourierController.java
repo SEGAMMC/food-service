@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/couriers")
 public class CourierController {
 
     /**
