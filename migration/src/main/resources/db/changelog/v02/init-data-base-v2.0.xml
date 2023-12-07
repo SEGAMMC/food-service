@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <!-- локальный ченджлог  -->
+    <changeSet id="insert_data_couriers.v2.0" author="mukhin_sa">
+        <!-- relativeToChangelogFile - позволяет указывать путь относительно той папки,
+        где лежит ченджлог  -->
+        <sqlFile path="insert-data-couriers.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <sqlFile path="rollback/init_rollback_couriers.sql" relativeToChangelogFile="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="insert_data_customers.v2.0" author="mukhin_sa">
+        <sqlFile path="insert-data-customers.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <sqlFile path="rollback/init_rollback_customers.sql" relativeToChangelogFile="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="insert_data_restaurants.v2.0" author="mukhin_sa">
+        <sqlFile path="insert-data-restaurants.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <sqlFile path="rollback/init_rollback_restaurants.sql" relativeToChangelogFile="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="insert_data_orders.v2.0" author="mukhin_sa">
+        <sqlFile path="insert-data-orders.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <sqlFile path="rollback/init_rollback_orders.sql" relativeToChangelogFile="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="insert_data_restaurant_menu_items.v2.0" author="mukhin_sa">
+        <sqlFile path="insert-data-restaurant_menu_items.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <sqlFile path="rollback/init_rollback_restaurant_menu_items.sql" relativeToChangelogFile="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="insert_data_order_items.v2.0" author="mukhin_sa">
+        <sqlFile path="insert-data-order_items.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <sqlFile path="rollback/init_rollback_order_items.sql" relativeToChangelogFile="true"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
