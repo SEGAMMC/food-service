@@ -1,4 +1,4 @@
-package ru.liga.common.entity;
+package ru.liga.common.enums;
 
 public enum OrderStatus {
     CUSTOMER_CREATED,    //заказ создан
