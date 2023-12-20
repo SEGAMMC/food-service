@@ -4,17 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
+import ru.liga.common.enums.CustomerStatus;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class NewOrderRequest {
+public class UpdateCustomerRequest {
+    private String phone;
 
-    private long restaurantId;
+    private String email;
 
-    private List<OrderItemRequest> orderItems;
+    private String address;
+
+    private CustomerStatus status;
 
 }

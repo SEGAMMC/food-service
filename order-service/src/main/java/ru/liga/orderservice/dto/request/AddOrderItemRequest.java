@@ -5,16 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class NewOrderRequest {
+public class AddOrderItemRequest {
 
-    private long restaurantId;
+    private long restaurantMenuItem;
 
-    private List<OrderItemRequest> orderItems;
+    private int quantity;
 
 }

@@ -4,17 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
+import ru.liga.common.enums.CustomerStatus;
+import ru.liga.common.enums.OrderStatus;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class NewOrderItemRequest {
-
-
-
-    private long restaurantId;
-    private List<OrderMenuItemRequest> menuItems;
+public class CustomerStatusRequest {
+    private CustomerStatus customerStatus;
 }

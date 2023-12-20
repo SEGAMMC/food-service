@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderMenuItemRequest {
+public class UpdateOrderItemRequest {
     private int quantity;
-    private long menuItemId;
 }
