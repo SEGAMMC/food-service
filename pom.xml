@@ -22,10 +22,9 @@
         <module>dependency-bom</module>
         <module>order-service</module>
         <module>delivery-service</module>
-        <module>kitchen-service</module>
+        <module>migration</module>
         <module>notification-service</module>
-        <module>customer-service</module>
-        <module>courier-service</module>
+        <module>common</module>
         <module>restaurant-service</module>
     </modules>
 
@@ -34,5 +33,4 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
 </project>
