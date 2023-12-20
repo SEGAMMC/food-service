@@ -1,4 +1,4 @@
-package ru.liga.kitchenservice.dto;
+package ru.liga.restaurantservice.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

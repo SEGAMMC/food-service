@@ -1,9 +1,26 @@
 package ru.liga.restaurantservice.service;
 
-import java.util.UUID;
+import ru.liga.restaurantservice.dto.request.RestaurantStatusRequest;
+import ru.liga.restaurantservice.dto.request.RestaurantUpdateInfoRequest;
+import ru.liga.restaurantservice.dto.response.MenuItemForListResponse;
+import ru.liga.restaurantservice.dto.response.RestaurantResponse;
+
+import java.util.List;
 
 public interface RestaurantService {
-    void getRestaurantById(UUID uuid);
+	RestaurantResponse getRestaurantById(long restaurantId);
+	
+	void updateRestaurantById(long restaurantId
+		, RestaurantUpdateInfoRequest restaurantInfo);
+	
+	void updateRestaurantStatus(long restaurantId
+		, RestaurantStatusRequest restaurantStatus);
 
-    void updateRestaurant();
+	void updateRestaurantStatusActive(long restaurantId);
+
+	void updateRestaurantStatusInactive(long restaurantId);
+
+	void deleteRestaurant(long restaurantId);
+	
+	List<MenuItemForListResponse> getMenuItemsRestaurant(long restaurantId);
 }
