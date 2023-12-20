@@ -10,6 +10,7 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../dependency-bom/pom.xml</relativePath>
     </parent>
+    <packaging>jar</packaging>
 
     <groupId>ru.liga.common</groupId>
     <artifactId>common</artifactId>

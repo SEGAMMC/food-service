@@ -11,9 +11,9 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
 @Table(name = "order_items")
+@Builder
 public class OrderItem {
 
     @Id
@@ -27,8 +27,8 @@ public class OrderItem {
     private Order orderId;
 
     @OneToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "restraunt_menu_item")
-    private RestaurantMenuItem restrauntMenuItem;
+    @JoinColumn(name = "restaurant_menu_item_id")
+    private RestaurantMenuItem restaurantMenuItem;
 
     @Column(name = "price", columnDefinition = "decimal(10, 2)")
     private BigDecimal price;
@@ -37,3 +37,4 @@ public class OrderItem {
     private int quantity;
 
 }
+
