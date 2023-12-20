@@ -1,21 +1,16 @@
-package ru.liga.courierservice.dto;
+package ru.liga.deliveryservice.dto.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import ru.liga.common.enums.CourierStatus;
-
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CourierUpdateRequest {
+public class UpdateCourierRequest {
 
     private String phone;
 
@@ -24,3 +19,4 @@ public class CourierUpdateRequest {
     private String coordinates;
 
 }
+
