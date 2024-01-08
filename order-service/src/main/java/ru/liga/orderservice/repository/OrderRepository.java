@@ -18,6 +18,7 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
 
     List<Order> getOrdersByCustomerId(long id);
 
-    List<Order> getOrdersByRestaurantIdAndStatus(Restaurant restaurant, OrderStatus orderStatus);
+    List<Order> getOrdersByRestaurantIdAndStatus(Restaurant restaurant
+            , OrderStatus orderStatus);
 
 }
