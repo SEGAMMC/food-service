@@ -12,6 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class NewOrderRequest {
+
     private long restaurantId;
-    private List<OrderMenuItemRequest> menuItems;
+
+    private List<OrderItemRequest> orderItems;
+
 }

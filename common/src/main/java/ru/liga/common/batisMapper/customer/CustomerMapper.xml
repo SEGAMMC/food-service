@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.liga.batisMapper.customer.CustomerMapper">
+
+    <select id="getCustomerById" parameterType="java.lang.Long" resultMap="customer_id">
+        select * from customers where (1=1) <if test="id != null"> and id = #{id} </if>
+    </select>
+
+    <select id="getCustomerByEmail" parameterType="java.lang.String"
+            resultMap="customer_email">
+        select * from customers where (1=1) <if test="email != null"> and email = #{email} </if>
+    </select>
+
+    <update id="updateCustomerPhone" parameterType="ru.liga.entity.Customer">
+        update customers
+        <set>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <resultMap id="customer_id" type="ru.liga.entity.Customer">
+        <id property="id" column="id"/>
+        <result property="id" column="id"/>
+    </resultMap>
+
+    <resultMap id="customer_email" type="ru.liga.entity.Customer">
+        <id property="id" column="id"/>
+        <result property="email" column="email"/>
+    </resultMap>
+
+</mapper>

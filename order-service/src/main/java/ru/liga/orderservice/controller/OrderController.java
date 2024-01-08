@@ -17,55 +17,64 @@ import java.util.UUID;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/orders")
+@RequestMapping("/api/v1")
 public class OrderController {
+
     private final OrderService orderService;
 
     /**
-     *  Создание нового заказа
+     * Создание нового заказа
+     *
+     * @param customerId              - идентификационный номер клиента
+     * @param newOrderRequest - параметры заказа
+     * @return возвращает ответ с номером заказа, секретным кодом и временем доставки
      */
-    @PostMapping
-    public ResponseEntity<OrderPaymentResponse> createNewOrder(@RequestBody NewOrderRequest newOrder){
-        OrderPaymentResponse orderPayment = orderService.createNewOrder(newOrder);
-        return ResponseEntity.ok(orderPayment);
+    @PostMapping("/customers/{id}/orders")
+    public ResponseEntity<OrderPaymentResponse> createNewOrder(@PathVariable long customerId
+            , @RequestBody NewOrderRequest newOrderRequest) {
+        return ResponseEntity.ok(orderService.createNewOrder(customerId, newOrderRequest));
     }
 
     /**
-     * Получение всех заказов клиента
+     * Получение списка всех заказов клиента
+     *
+     * @param customerId - идентификационный номер клиента
+     * @return список заказов клиента
      */
-    @GetMapping
-    public ResponseEntity<List<OrderResponse>> getAllOrders(){
-        List<OrderResponse> orders = orderService.getAllOrders();
-        return ResponseEntity.ok(orders);
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<List<OrderResponse>> getOrdersByCustomerId(@PathVariable long customerId) {
+        return ResponseEntity.ok(orderService.getOrdersByCustomerId(customerId));
     }
 
     /**
-     * Получение информации заказа по его номеру UUID
+     * Получение информации о заказе по его номеру UUID
+     *
+     * @param uuid - идентификационный номер заказа
+     * @return информация о заказе
      */
     @GetMapping("/{uuid}")
-    public ResponseEntity<OrderResponse> getOrderById(@PathVariable UUID uuid){
-        OrderResponse order = orderService.getOrderById(uuid);
-        return ResponseEntity.ok(order);
+    public ResponseEntity<OrderResponse> getOrderByUuid(@PathVariable UUID uuid) {
+        return ResponseEntity.ok(orderService.getOrderByUuid(uuid));
     }
 
     /**
      * Отмена заказа по номеру UUID
+     *
+     * @param uuid - идентификационный номер заказа
      */
     @DeleteMapping("/{uuid}")
-    public void cancellOrder(@PathVariable UUID uuid){
+    public void cancellOrder(@PathVariable UUID uuid) {
         orderService.cancellOrder(uuid);
     }
 
     /**
      * Изменение статуса заказа номеру UUID
+     *
+     * @param uuid - идентификационный номер заказа
+     * @param orderStatus - новый статус заказа
      */
     @PutMapping("/{uuid}/status")
-    public void updateOrderStatus(@PathVariable UUID uuid, @RequestBody OrderStatusRequest orderStatus){
-        orderService.updateOrderStatus(orderStatus);
+    public void updateOrderStatus(@PathVariable UUID uuid, @RequestBody OrderStatusRequest orderStatus) {
+        orderService.updateOrderStatus(uuid, orderStatus);
     }
-
-
 }
-
-
-

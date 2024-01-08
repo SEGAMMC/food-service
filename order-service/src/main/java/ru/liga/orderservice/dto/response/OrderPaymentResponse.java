@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -14,5 +15,5 @@ import java.util.UUID;
 public class OrderPaymentResponse {
     private UUID id;
     private String secretPaymentUrl;
-    private String estimatedTimeOfArrival;
+    private LocalDateTime estimatedTimeOfArrival;
 }
