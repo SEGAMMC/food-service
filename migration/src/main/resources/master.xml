@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+	<!-- глобальный ченджлог  -->
+	<!-- создание таблиц  -->
+<!--    <include file="db/changelog/v01/create-db-orders-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="db/changelog/v01/create-db-customers-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="db/changelog/v01/create-db-couriers-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="db/changelog/v01/create-db-restaurants-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="db/changelog/v01/create-db-restaurant-menu-items-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="db/changelog/v01/create-db-order-items-v1.0.xml" relativeToChangelogFile="true"/>-->
+	
+	<!-- установка foreign key  -->
+<!--	<include file="db/changelog/v01/foreign-orders-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="db/changelog/v01/foreign-restaurant-menu-items-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="db/changelog/v01/foreign-order-items-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--	-->
+	<!-- заполнение БД  -->
+	<include file="db/changelog/v02/init-data-base-v2.0.xml" relativeToChangelogFile="true"/>
+	
+</databaseChangeLog>
