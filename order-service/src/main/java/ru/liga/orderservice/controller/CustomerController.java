@@ -21,7 +21,7 @@ public class CustomerController {
     /**
      * Получение информации о клиенте по ID
      *
-     * @param id - идентификационный номер клиента
+     * @param id идентификационный номер клиента
      * @return возвращает информацию о клиенте
      */
     @GetMapping("/{id}")
@@ -33,8 +33,8 @@ public class CustomerController {
     /**
      * Изменение информации о клиенте
      *
-     * @param id              - идентификационный номер клиента
-     * @param updateCustomerRequest - новая информация о клиенте
+     * @param id                    идентификационный номер клиента
+     * @param updateCustomerRequest новая информация о клиенте
      */
     @PutMapping("/{id}")
     public void updateCustomer(@PathVariable Long id
@@ -45,8 +45,8 @@ public class CustomerController {
     /**
      * Изменение статуса клиента
      *
-     * @param id                    - идентификационный номер клиента
-     * @param customerStatusRequest - новый статус клиента
+     * @param id                    идентификационный номер клиента
+     * @param customerStatusRequest новый статус клиента
      */
     @PutMapping("/{id}/status")
     public void updateCustomerStatus(@PathVariable long id

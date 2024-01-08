@@ -37,3 +37,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/client-courier/
+/client-customer/
+/client-restaurant/

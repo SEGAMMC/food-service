@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EntityScan(basePackages="ru.liga.common")
+@EnableFeignClients
+@EntityScan(basePackages = "ru.liga.common")
 public class OrderServiceApplication {
 
 	public static void main(String[] args) {

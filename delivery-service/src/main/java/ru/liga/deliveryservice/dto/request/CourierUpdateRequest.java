@@ -1,4 +1,4 @@
-package ru.liga.deliveryservice.dto;
+package ru.liga.deliveryservice.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

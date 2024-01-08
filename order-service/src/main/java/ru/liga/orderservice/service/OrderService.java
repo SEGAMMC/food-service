@@ -1,9 +1,12 @@
 package ru.liga.orderservice.service;
 
+import ru.liga.common.entity.Courier;
+import ru.liga.common.entity.OrderInfo;
 import ru.liga.orderservice.dto.request.AddOrderItemRequest;
 import ru.liga.orderservice.dto.request.NewOrderRequest;
 import ru.liga.orderservice.dto.request.OrderStatusRequest;
 import ru.liga.orderservice.dto.request.UpdateOrderItemRequest;
+import ru.liga.orderservice.dto.response.OrderItemForRestaurantResponse;
 import ru.liga.orderservice.dto.response.OrderPaymentResponse;
 import ru.liga.orderservice.dto.response.OrderResponse;
 
@@ -17,14 +20,24 @@ public interface OrderService {
 
     OrderPaymentResponse createNewOrder(long id, NewOrderRequest newOrderRequest);
 
-    void cancellOrder (UUID uuid);
+    void cancellOrder(UUID uuid);
 
-    void updateOrderStatus(UUID uuid, OrderStatusRequest orderStatus);
-	
-	void addNewOrderItem(UUID uuid, AddOrderItemRequest newOrderItem);
+    boolean updateOrderStatus(UUID uuid, OrderStatusRequest orderStatus);
 
-	void deleteOrderItem(UUID uuid, long id);
+    boolean updateOrderStatusComplete(UUID uuid);
 
-	void updateOrderItem(UUID uuid, long id, UpdateOrderItemRequest updateItem);
+    void addNewOrderItem(UUID uuid, AddOrderItemRequest newOrderItem);
+
+    void deleteOrderItem(UUID uuid, long id);
+
+    void updateOrderItem(UUID uuid, long id, UpdateOrderItemRequest updateItem);
+
+    List<OrderItemForRestaurantResponse> getOrderItemsByUuid(UUID uuid);
+
+    OrderInfo getOrderInfoByUuidForCouriers(UUID uuid);
+
+    List<OrderResponse> getOrderByRestaurantAndStatus(long restaurant, String status);
+
+    void addCourierInOrder(UUID uuid, Courier courier);
 
 }

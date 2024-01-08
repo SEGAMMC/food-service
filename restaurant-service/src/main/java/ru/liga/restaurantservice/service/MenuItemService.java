@@ -6,6 +6,8 @@ import ru.liga.restaurantservice.dto.request.UpdateItemStatusRequest;
 import ru.liga.restaurantservice.dto.request.UpdatePriceMenuItemRequest;
 import ru.liga.restaurantservice.dto.response.MenuItemResponse;
 
+import java.util.List;
+
 public interface MenuItemService {
     MenuItemResponse getMenuItemById(long id);
 
@@ -20,7 +22,10 @@ public interface MenuItemService {
     void updateItemStatusActive(long itemId);
 
     void updateItemStatusInactive(long itemId);
-	
+
     void deleteMenuItem(long id);
 
+    RestaurantMenuItem getMenuItemByIdForService(long menuItemId);
+
+    List<RestaurantMenuItem> getListMenuItemForService(List<Long> listMenuItemId);
 }

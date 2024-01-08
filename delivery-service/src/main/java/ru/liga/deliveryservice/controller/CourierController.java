@@ -19,23 +19,23 @@ public class CourierController {
 	private final CourierService courierService;
 	
 	/**
-     * Получение информации о курьере
-     *
-     * @param courierId - идентификационный номер курьера
-     * @return возвращает информацию о курьере
-     */
+	 * Получение информации о курьере
+	 *
+	 * @param courierId идентификационный номер курьера
+	 * @return возвращает информацию о курьере
+	 */
     @GetMapping("/{courierId}")
     public ResponseEntity<CourierResponse> getCourierById(
 			@PathVariable long courierId) {
 		return ResponseEntity.ok(courierService.getCourierById(courierId));
-    }
+	}
 
 	/**
-     * Изменение информации о курьере
-     *
-     * @param courierId - идентификационный номер курьера
-	 * @param courierRequest - новая информация о курьере
-     */
+	 * Изменение информации о курьере
+	 *
+	 * @param courierId      идентификационный номер курьера
+	 * @param courierRequest новая информация о курьере
+	 */
     @PutMapping("/{courierId}")
     public void updateCourierInfo(@PathVariable long courierId
 			, @RequestBody UpdateCourierRequest courierRequest) {
