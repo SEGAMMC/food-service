@@ -3,11 +3,14 @@ package ru.liga.restaurantservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.liga.common.entity.RestaurantMenuItem;
 import ru.liga.restaurantservice.dto.request.MenuItemRequest;
 import ru.liga.restaurantservice.dto.request.UpdateItemStatusRequest;
 import ru.liga.restaurantservice.dto.request.UpdatePriceMenuItemRequest;
 import ru.liga.restaurantservice.dto.response.MenuItemResponse;
 import ru.liga.restaurantservice.service.MenuItemService;
+
+import java.util.List;
 
 /**
  * Контроллер для работы с меню ресторана
@@ -22,7 +25,7 @@ public class RestaurantMenuController {
     /**
      * Получение информации о блюде по его номеру
      *
-     * @param itemId - идентификационный номер блюда
+     * @param itemId идентификационный номер блюда
      * @return информация о блюде
      */
     @GetMapping("/{itemId}")
@@ -33,7 +36,7 @@ public class RestaurantMenuController {
     /**
      * Добавление нового блюда в меню ресторана
      *
-     * @param newMenuItem - параметры нового блюда
+     * @param newMenuItem параметры нового блюда
      */
     @PostMapping
     public ResponseEntity<MenuItemResponse> createNewMenuItem(@RequestBody MenuItemRequest newMenuItem) {
@@ -43,8 +46,8 @@ public class RestaurantMenuController {
     /**
      * Изменение информации о блюде в меню ресторана
      *
-     * @param itemId         - идентификационный номер блюда
-     * @param updateMenuItem - параметры измененного блюда
+     * @param itemId         идентификационный номер блюда
+     * @param updateMenuItem параметры измененного блюда
      */
     @PutMapping("/{itemId}")
     public void updateMenuItem(@PathVariable long itemId
@@ -55,8 +58,8 @@ public class RestaurantMenuController {
     /**
      * Изменение цены блюда в меню ресторана
      *
-     * @param itemId              - идентификационный номер блюда
-     * @param updatePriceMenuItem - новая цена блюда
+     * @param itemId              идентификационный номер блюда
+     * @param updatePriceMenuItem новая цена блюда
      */
     @PutMapping("/{itemId}/price")
     public void updatePriceItem(@PathVariable long itemId
@@ -67,8 +70,8 @@ public class RestaurantMenuController {
     /**
      * Изменение статуса блюда в меню ресторана
      *
-     * @param itemId                  - идентификационный номер блюда
-     * @param updateItemStatusRequest - новая статус блюда
+     * @param itemId                  идентификационный номер блюда
+     * @param updateItemStatusRequest новая статус блюда
      */
     @PutMapping("/{itemId}/status")
     public void updateItemStatus(@PathVariable long itemId
@@ -79,7 +82,7 @@ public class RestaurantMenuController {
     /**
      * Изменение статуса блюда в меню ресторана на Active
      *
-     * @param itemId - идентификационный номер блюда
+     * @param itemId идентификационный номер блюда
      */
     @PutMapping("/{itemId}/status/active")
     public void updateItemStatusActive(@PathVariable long itemId) {
@@ -89,7 +92,7 @@ public class RestaurantMenuController {
     /**
      * Изменение статуса блюда в меню ресторана на Inactive
      *
-     * @param itemId - идентификационный номер блюда
+     * @param itemId идентификационный номер блюда
      */
     @PutMapping("/{itemId}/status/inactive")
     public void updateItemStatusInactive(@PathVariable long itemId) {
@@ -99,10 +102,35 @@ public class RestaurantMenuController {
     /**
      * Удаление блюда из меню ресторана
      *
-     * @param itemId - идентификационный номер
+     * @param itemId идентификационный номер
      */
     @DeleteMapping("/{itemId}")
     public void deleteMenuItem(@PathVariable long itemId) {
         menuItemService.deleteMenuItem(itemId);
+    }
+
+    //Feign methods
+
+    /**
+     * Получение информации о блюде по его номеру для сервисов
+     *
+     * @param menuItemId идентификационный номер блюда
+     * @return информация о блюде для ресторана
+     */
+    @GetMapping("/{menuItemId}/service")
+    public RestaurantMenuItem getMenuItemByIdForService(@PathVariable long menuItemId) {
+        return menuItemService.getMenuItemByIdForService(menuItemId);
+    }
+
+    /**
+     * Получение списка информации о блюде из меню ресторана от restaurant-service
+     *
+     * @param listMenuItemId список идентификационных номеров блюд в меню
+     * @return возвращает информацию о блюде из ресторана
+     */
+    @PostMapping("/list/service")
+    public List<RestaurantMenuItem> getListMenuItemForService(@RequestBody
+                                                              List<Long> listMenuItemId) {
+        return menuItemService.getListMenuItemForService(listMenuItemId);
     }
 }

@@ -14,7 +14,6 @@ import ru.liga.restaurantservice.repository.MenuItemRepository;
 import ru.liga.restaurantservice.repository.RestaurantRepository;
 import ru.liga.restaurantservice.service.RestaurantService;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     /**
      * Получение информации о ресторане по его номеру
      *
-     * @param restaurantId - идентификационный номер ресторана
+     * @param restaurantId идентификационный номер ресторана
      * @return информация о ресторане
      */
     public RestaurantResponse getRestaurantById(long restaurantId) {
@@ -43,8 +42,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     /**
      * Изменение информации о ресторане
      *
-     * @param restaurantId   - идентификационный номер ресторана
-     * @param restaurantInfo - новая информация о ресторане
+     * @param restaurantId   идентификационный номер ресторана
+     * @param restaurantInfo новая информация о ресторане
      */
     public void updateRestaurantById(long restaurantId
             , RestaurantUpdateInfoRequest restaurantInfo) {
@@ -58,8 +57,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     /**
      * Изменение статуса ресторана
      *
-     * @param restaurantId     - идентификационный номер ресторана
-     * @param restaurantStatus - новый статус ресторана
+     * @param restaurantId     идентификационный номер ресторана
+     * @param restaurantStatus новый статус ресторана
      */
     public void updateRestaurantStatus(long restaurantId
             , RestaurantStatusRequest restaurantStatus) {
@@ -69,7 +68,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     /**
      * Изменение статуса ресторана на ACTIVE
      *
-     *@param restaurantId - идентификационный номер ресторана
+     * @param restaurantId идентификационный номер ресторана
      */
     @Override
     public void updateRestaurantStatusActive(long restaurantId) {
@@ -79,7 +78,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     /**
      * Изменение статуса ресторана на INACTIVE
      *
-     *@param restaurantId - идентификационный номер ресторана
+     * @param restaurantId идентификационный номер ресторана
      */
     @Override
     public void updateRestaurantStatusInactive(long restaurantId) {
@@ -89,7 +88,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     /**
      * Удаление ресторана из БД
      *
-     * @param restaurantId - идентификационный номер ресторана
+     * @param restaurantId идентификационный номер ресторана
      */
     public void deleteRestaurant(long restaurantId) {
         updateRestaurantStatus(restaurantId, RestaurantStatus.DELETE);
@@ -98,7 +97,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     /**
      * Получение списка блюд конкретного ресторана
      *
-     * @param restaurantId - идентификационный номер ресторана
+     * @param restaurantId идентификационный номер ресторана
      * @return список блюд конкретного ресторана
      */
     public List<MenuItemForListResponse> getMenuItemsRestaurant(long restaurantId) {
@@ -112,7 +111,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         for (RestaurantMenuItem menuItem : restaurantMenuItems) {
             MenuItemForListResponse menuItemForList = new MenuItemForListResponse();
-            menuItemForList = menuItemForList.builder()
+            menuItemForList = MenuItemForListResponse.builder()
                     .id(menuItem.getId())
                     .name(menuItem.getName())
                     .description(menuItem.getDescription())
@@ -127,8 +126,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     /**
      * Изменение статуса ресторана (основной метод)
      *
-     * @param restaurantId     - идентификационный номер ресторана
-     * @param restaurantStatus - новый статус ресторана
+     * @param restaurantId     идентификационный номер ресторана
+     * @param restaurantStatus новый статус ресторана
      */
     private void updateRestaurantStatus(long restaurantId
             , RestaurantStatus restaurantStatus) {
@@ -139,8 +138,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     private RestaurantResponse mapRestaurantToRestaurantResponse(Restaurant restaurant) {
-        RestaurantResponse restaurantResponse = new RestaurantResponse();
-        return restaurantResponse.builder()
+        return RestaurantResponse.builder()
                 .name(restaurant.getName())
                 .address(restaurant.getAddress())
                 .status(restaurant.getStatus())
@@ -148,11 +146,23 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     private Restaurant mapRestaurantInfoToRestaurant(RestaurantUpdateInfoRequest restaurantInfo) {
-        Restaurant restaurant = new Restaurant();
-        return restaurant.builder()
+        return Restaurant.builder()
                 .address(restaurantInfo.getAddress())
                 .name(restaurantInfo.getName())
                 .status(restaurantInfo.getStatus())
                 .build();
+    }
+
+    //Feign methods
+
+    /**
+     * Получение информации о ресторане по его номеру для сервисов
+     *
+     * @param restaurantId идентификационный номер ресторана
+     * @return информация о ресторане для сервисов
+     */
+    public Restaurant getRestaurantByIdForService(long restaurantId) {
+        return restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
     }
 }

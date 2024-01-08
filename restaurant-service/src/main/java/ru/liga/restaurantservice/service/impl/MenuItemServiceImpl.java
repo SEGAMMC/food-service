@@ -2,7 +2,6 @@ package ru.liga.restaurantservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.liga.common.entity.Order;
 import ru.liga.common.entity.Restaurant;
 import ru.liga.common.entity.RestaurantMenuItem;
 import ru.liga.common.enums.MenuItemStatus;
@@ -15,8 +14,8 @@ import ru.liga.restaurantservice.repository.MenuItemRepository;
 import ru.liga.restaurantservice.repository.RestaurantRepository;
 import ru.liga.restaurantservice.service.MenuItemService;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +27,7 @@ public class MenuItemServiceImpl implements MenuItemService {
     /**
      * Получение информации о блюде по его номеру
      *
-     * @param itemId - идентификационный номер блюда
+     * @param itemId идентификационный номер блюда
      * @return информация о блюде
      */
     @Override
@@ -41,7 +40,7 @@ public class MenuItemServiceImpl implements MenuItemService {
     /**
      * Добавление нового блюда в меню ресторана
      *
-     * @param newMenuItem - параметры нового блюда
+     * @param newMenuItem параметры нового блюда
      * @return информация о новом блюде
      */
     @Override
@@ -54,8 +53,8 @@ public class MenuItemServiceImpl implements MenuItemService {
     /**
      * Изменение информации о блюде в меню ресторана
      *
-     * @param itemId         - идентификационный номер блюда
-     * @param updateMenuItem - параметры измененного блюда
+     * @param itemId         идентификационный номер блюда
+     * @param updateMenuItem параметры измененного блюда
      */
     @Override
     public void updateMenuItem(long itemId, MenuItemRequest updateMenuItem) {
@@ -67,8 +66,8 @@ public class MenuItemServiceImpl implements MenuItemService {
     /**
      * Изменение цены блюда в меню ресторана
      *
-     * @param itemId              - идентификационный номер блюда
-     * @param updatePriceMenuItem - новая цена блюда
+     * @param itemId              идентификационный номер блюда
+     * @param updatePriceMenuItem новая цена блюда
      */
     @Override
     public void updatePriceMenuItem(long itemId, UpdatePriceMenuItemRequest updatePriceMenuItem) {
@@ -82,8 +81,8 @@ public class MenuItemServiceImpl implements MenuItemService {
     /**
      * Изменение статуса блюда в меню ресторана
      *
-     * @param itemId                  - идентификационный номер блюда
-     * @param updateItemStatusRequest - новый статус блюда
+     * @param itemId                  идентификационный номер блюда
+     * @param updateItemStatusRequest новый статус блюда
      */
     @Override
     public void updateItemStatus(long itemId, UpdateItemStatusRequest updateItemStatusRequest) {
@@ -93,7 +92,7 @@ public class MenuItemServiceImpl implements MenuItemService {
     /**
      * Изменение статуса блюда в меню ресторана на Active
      *
-     * @param itemId - идентификационный номер блюда
+     * @param itemId идентификационный номер блюда
      */
     @Override
     public void updateItemStatusActive(long itemId) {
@@ -103,7 +102,7 @@ public class MenuItemServiceImpl implements MenuItemService {
     /**
      * Изменение статуса блюда в меню ресторана на Inactive
      *
-     * @param itemId - идентификационный номер блюда
+     * @param itemId идентификационный номер блюда
      */
     @Override
     public void updateItemStatusInactive(long itemId) {
@@ -113,7 +112,7 @@ public class MenuItemServiceImpl implements MenuItemService {
     /**
      * Удаление блюда из меню ресторана
      *
-     * @param itemId - идентификационный номер
+     * @param itemId идентификационный номер
      */
 
     @Override
@@ -125,8 +124,8 @@ public class MenuItemServiceImpl implements MenuItemService {
     /**
      * Изменение статуса блюда в меню ресторана
      *
-     * @param itemId                  - идентификационный номер блюда
-     * @param itemStatus - новый статус блюда
+     * @param itemId     идентификационный номер блюда
+     * @param itemStatus новый статус блюда
      */
     private void updateItemStatus(long itemId, MenuItemStatus itemStatus) {
         RestaurantMenuItem menuItem = menuItemRepository.findById(itemId)
@@ -136,8 +135,7 @@ public class MenuItemServiceImpl implements MenuItemService {
     }
 
     private MenuItemResponse mapMenuItemToMenuItemResponse(RestaurantMenuItem menuItem) {
-        MenuItemResponse itemResponse = new MenuItemResponse();
-        itemResponse = itemResponse.builder()
+        return MenuItemResponse.builder()
                 .id(menuItem.getId())
                 .restaurantId(menuItem.getRestaurantId().getId())
                 .name(menuItem.getName())
@@ -146,14 +144,12 @@ public class MenuItemServiceImpl implements MenuItemService {
                 .description(menuItem.getDescription())
                 .status(menuItem.getStatus())
                 .build();
-        return itemResponse;
     }
 
     private RestaurantMenuItem mapMenuItemRequestToMenuItem(MenuItemRequest newMenuItem) {
-        RestaurantMenuItem menuItem = new RestaurantMenuItem();
         Restaurant restaurant = restaurantRepository.findById(newMenuItem.getRestaurantId())
                 .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
-        menuItem = menuItem.builder()
+        return RestaurantMenuItem.builder()
                 .restaurantId(restaurant)
                 .name(newMenuItem.getName())
                 .price(newMenuItem.getPrice())
@@ -161,6 +157,36 @@ public class MenuItemServiceImpl implements MenuItemService {
                 .description(newMenuItem.getDescription())
                 .status(newMenuItem.getStatus())
                 .build();
-        return menuItem;
+    }
+
+    //Feign methods
+
+    /**
+     * Получение информации о блюде по его номеру для сервисов
+     *
+     * @param menuItemId идентификационный номер блюда
+     * @return информация о блюде для ресторана
+     */
+    @Override
+    public RestaurantMenuItem getMenuItemByIdForService(long menuItemId) {
+        return menuItemRepository.findById(menuItemId)
+                .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
+    }
+
+    /**
+     * Получение списка информации о блюде из меню ресторана от restaurant-service
+     *
+     * @param listMenuItemId список идентификационных номеров блюд в меню
+     * @return возвращает информацию о блюде из ресторана
+     */
+    @Override
+    public List<RestaurantMenuItem> getListMenuItemForService(List<Long> listMenuItemId) {
+        List<RestaurantMenuItem> listItem = new ArrayList<>();
+        for (Long menuItems : listMenuItemId) {
+            RestaurantMenuItem rmi = menuItemRepository.findById(menuItems)
+                    .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
+            listItem.add(rmi);
+        }
+        return listItem;
     }
 }
