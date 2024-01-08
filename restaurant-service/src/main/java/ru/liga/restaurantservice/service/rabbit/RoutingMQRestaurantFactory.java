@@ -17,6 +17,7 @@ public class RoutingMQRestaurantFactory {
         DirectExchange directExchange = new DirectExchange("NotificationsExchange");
         String routingKey = "push.restaurant." + restaurantId;
 
-        return new Declarables(newRestaurant, directExchange, BindingBuilder.bind(newRestaurant).to(directExchange).with(routingKey));
+        return new Declarables(newRestaurant, directExchange,
+                BindingBuilder.bind(newRestaurant).to(directExchange).with(routingKey));
     }
 }
