@@ -28,6 +28,8 @@
         <snakeyaml.version>2.0</snakeyaml.version>
         <swagger.version>2.2.8</swagger.version>
         <openapi.version>1.7.0</openapi.version>
+        <!--        <feign.version>2.2.10.RELEASE</feign.version>-->
+        <feign.version>3.1.9</feign.version>
         <!--        ##TEST##-->
         <mybatis.test.version>3.0.3</mybatis.test.version>
         <rabbit.test>2.4.15</rabbit.test>
@@ -101,12 +103,11 @@
                 <optional>true</optional>
             </dependency>
 
-
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>${feign.version}</version>
             </dependency>
-
 
             <!--##TEST##-->
             <dependency>
