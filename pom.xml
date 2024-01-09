@@ -27,9 +27,9 @@
         <module>common</module>
         <module>restaurant-service</module>
 
-        <module>client-restaurant</module>
-        <module>client-customer</module>
-        <module>client-courier</module>
+<!--        <module>client-restaurant</module>-->
+<!--        <module>client-customer</module>-->
+<!--        <module>client-courier</module>-->
     </modules>
 
     <properties>
