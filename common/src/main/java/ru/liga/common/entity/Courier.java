@@ -19,7 +19,8 @@ public class Courier {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "couriers_seq_gen")
-    @SequenceGenerator(name = "couriers_seq_gen", sequenceName = "couriers_seq", allocationSize = 1)
+    @SequenceGenerator(name = "couriers_seq_gen", sequenceName = "couriers_seq",
+            allocationSize = 1)
     private long id;
 
     @Column(name = "phone")

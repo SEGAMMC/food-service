@@ -19,7 +19,8 @@ public class OrderItem {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_item_seq_gen")
-    @SequenceGenerator(name = "order_item_seq_gen", sequenceName = "order_item_seq",  allocationSize = 1)
+    @SequenceGenerator(name = "order_item_seq_gen", sequenceName = "order_item_seq",
+            allocationSize = 1)
     private long id;
 
     @OneToOne (fetch = FetchType.LAZY)
@@ -37,4 +38,3 @@ public class OrderItem {
     private int quantity;
 
 }
-

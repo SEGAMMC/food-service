@@ -19,8 +19,10 @@ public class RestaurantMenuItem {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restaurant_menu_item_seq_gen")
-    @SequenceGenerator(name = "restaurant_menu_item_seq_gen", sequenceName = "restaurant_menu_item_seq",  allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "restaurant_menu_item_seq_gen")
+    @SequenceGenerator(name = "restaurant_menu_item_seq_gen",
+            sequenceName = "restaurant_menu_item_seq", allocationSize = 1)
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,7 +36,7 @@ public class RestaurantMenuItem {
     private BigDecimal price;
 
     @Column(name = "image_url")
-    private String image_url;
+    private String imageUrl;
 
     @Column(name = "description")
     private String description;
