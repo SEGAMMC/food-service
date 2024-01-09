@@ -19,7 +19,7 @@ public class CourierServiceImpl implements CourierService {
 
     private final CourierRepository courierRepository;
 
-	/**
+    /**
      * Получение информации о курьере
      *
      * @param courierId идентификационный номер курьера
@@ -27,8 +27,8 @@ public class CourierServiceImpl implements CourierService {
      */
     @Override
     public CourierResponse getCourierById(long courierId) {
-		Courier courier = courierRepository.findById(courierId)
-            .orElseThrow(()->new NoSuchElementException("Написать сообщение"));
+        Courier courier = courierRepository.findById(courierId)
+                .orElseThrow(() -> new NoSuchElementException("Написать сообщение"));
         return mapCourierToCourierResponse(courier);
     }
 
@@ -39,8 +39,8 @@ public class CourierServiceImpl implements CourierService {
      * @param courierRequest новая информация о курьере
      */
     @Override
-    public void updateCourierInfo(long courierId
-            , UpdateCourierRequest courierRequest) {
+    public void updateCourierInfo(long courierId,
+                                  UpdateCourierRequest courierRequest) {
         Courier courier = courierRepository.findById(courierId)
                 .orElseThrow(() -> new NoSuchElementException("Написать сообщение"));
 

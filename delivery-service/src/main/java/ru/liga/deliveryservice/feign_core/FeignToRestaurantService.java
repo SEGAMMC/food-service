@@ -10,7 +10,8 @@ import java.util.UUID;
 public interface FeignToRestaurantService {
 
     /**
-     * Оповещение ресторана, что курьер скоро прибудет за заказом с  номером UUID через RestaurantService
+     * Оповещение ресторана, что курьер скоро прибудет
+     * за заказом с номером UUID через RestaurantService
      *
      * @param uuid идентификационный номер заказа
      */
@@ -18,4 +19,3 @@ public interface FeignToRestaurantService {
     void sendPushDeliveryToRestaurant(@PathVariable UUID uuid);
 
 }
-

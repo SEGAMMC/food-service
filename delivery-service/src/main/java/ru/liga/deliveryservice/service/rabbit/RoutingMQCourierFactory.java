@@ -17,6 +17,7 @@ public class RoutingMQCourierFactory {
         DirectExchange directExchange = new DirectExchange("CourierExchange");
         String routingKey = "push.courier." + courierId;
 
-        return new Declarables(newCourier, directExchange, BindingBuilder.bind(newCourier).to(directExchange).with(routingKey));
+        return new Declarables(newCourier, directExchange,
+                BindingBuilder.bind(newCourier).to(directExchange).with(routingKey));
     }
 }

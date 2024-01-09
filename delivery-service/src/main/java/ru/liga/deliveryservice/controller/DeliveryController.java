@@ -9,6 +9,7 @@ import ru.liga.deliveryservice.service.DeliveryService;
 
 import java.util.UUID;
 
+
 /**
  * Контроллер для работы с доставкой
  */
@@ -30,7 +31,8 @@ public class DeliveryController {
     public ResponseEntity<DeliveriesResponse> getOrdersByStatus(
             @RequestParam(name = "courier") long courierId,
             @RequestParam(name = "status") String status) {
-        return ResponseEntity.ok(deliveryService.getOrdersDeliveryByStatus(courierId, status));
+        return ResponseEntity.ok(deliveryService.getOrdersDeliveryByStatus(courierId,
+                status));
     }
 
     /**
@@ -40,8 +42,8 @@ public class DeliveryController {
      * @param orderStatus новый статус заказа
      */
     @PutMapping("/order/{uuid}/status")
-    public void updateOrderStatus(@PathVariable UUID uuid
-            , @RequestBody OrderStatusRequest orderStatus) {
+    public void updateOrderStatus(@PathVariable UUID uuid,
+                                  @RequestBody OrderStatusRequest orderStatus) {
         deliveryService.updateOrderStatus(uuid, orderStatus);
     }
 
@@ -52,8 +54,8 @@ public class DeliveryController {
      * @param uuid      идентификационный номер заказа
      */
     @PutMapping("/couriers/{courierId}/takeOrder/{uuid}")
-    public void courierTakeOrder(@PathVariable long courierId
-            , @PathVariable UUID uuid) {
+    public void courierTakeOrder(@PathVariable long courierId,
+                                 @PathVariable UUID uuid) {
         deliveryService.courierTakeOrder(courierId, uuid);
     }
 
@@ -64,8 +66,8 @@ public class DeliveryController {
      * @param uuid      идентификационный номер заказа
      */
     @PutMapping("/couriers/{courierId}/pickupOrder/{uuid}")
-    public void courierPickUPOrder(@PathVariable long courierId
-            , @PathVariable UUID uuid) {
+    public void courierPickUPOrder(@PathVariable long courierId,
+                                   @PathVariable UUID uuid) {
         deliveryService.courierPickUPOrder(courierId, uuid);
     }
 
@@ -76,9 +78,8 @@ public class DeliveryController {
      * @param uuid      идентификационный номер заказа
      */
     @PutMapping("/couriers/{courierId}/completeOrder/{uuid}")
-    public void courierCompleteOrder(@PathVariable long courierId
-            , @PathVariable UUID uuid) {
+    public void courierCompleteOrder(@PathVariable long courierId,
+                                     @PathVariable UUID uuid) {
         deliveryService.courierCompleteOrder(courierId, uuid);
     }
-
 }

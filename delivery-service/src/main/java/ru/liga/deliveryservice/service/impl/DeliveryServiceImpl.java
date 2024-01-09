@@ -3,6 +3,7 @@ package ru.liga.deliveryservice.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.liga.common.entity.*;
 import ru.liga.common.enums.ActionType;
@@ -26,11 +27,14 @@ import java.util.*;
 /**
  * Сервис для работы курьеров с заказами
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DeliveryServiceImpl implements DeliveryService {
     private static final double KOEF_DISTANCE = 0.05;
-    private final double EARTH_RADIUS = 6372795; //радиус земли в метрах
+    private static final double EARTH_RADIUS = 6372795; //радиус земли в метрах
+    private static final int DEFAULT_COUNT_COURIERS = 5;
+    private static final double PAY_BY_KM = 0.2;
 
     private final FeignToOrderService feignToOrderService;
 
@@ -89,7 +93,8 @@ public class DeliveryServiceImpl implements DeliveryService {
         modelMessageOrder.setType(MessageType.PUSH);
         modelMessageOrder.setAction(ActionType.FIND_COURIER);
 
-        OrderInfo orderInfo = feignToOrderService.getOrderInfoByUuid(modelMessageOrder.getUuid());
+        OrderInfo orderInfo = feignToOrderService.getOrderInfoByUuid(modelMessageOrder
+                .getUuid());
         List<Long> couriersIdOnDelivery = preSearchCouriers(orderInfo);
         for (Long courierId : couriersIdOnDelivery) {
             modelMessageOrder.setCourierId(courierId);
@@ -122,8 +127,8 @@ public class DeliveryServiceImpl implements DeliveryService {
         //TODO проверить что курьер существует
         Courier courier = courierRepository.findById(courierId)
                 .orElseThrow(() -> new NoSuchElementException("Написать сообщение"));
-        feignToOrderService.updateOrderStatus(uuid
-                , new OrderStatusRequest(OrderStatus.DELIVERY_DELIVERING));
+        feignToOrderService.updateOrderStatus(uuid,
+                new OrderStatusRequest(OrderStatus.DELIVERY_DELIVERING));
     }
 
     /**
@@ -137,8 +142,8 @@ public class DeliveryServiceImpl implements DeliveryService {
         //TODO проверить что курьер существует
         Courier courier = courierRepository.findById(courierId)
                 .orElseThrow(() -> new NoSuchElementException("Написать сообщение"));
-        feignToOrderService.updateOrderStatus(uuid
-                , new OrderStatusRequest(OrderStatus.DELIVERY_COMPLETE));
+        feignToOrderService.updateOrderStatus(uuid,
+                new OrderStatusRequest(OrderStatus.DELIVERY_COMPLETE));
     }
 
     /**
@@ -162,16 +167,16 @@ public class DeliveryServiceImpl implements DeliveryService {
             double coordsCourierX = Double.parseDouble(coordsCourier[0]);
             double coordsCourierY = Double.parseDouble(coordsCourier[1]);
 
-            if (Math.abs(coordsCourierX - coordsRestaurantX) <= KOEF_DISTANCE &&
-                    Math.abs(coordsCourierY - coordsRestaurantY) <= KOEF_DISTANCE) {
-                double distance = getDistanceByCoords(coordsRestaurant
-                        , courier.getCoordinates());
+            if (Math.abs(coordsCourierX - coordsRestaurantX) <= KOEF_DISTANCE
+                    && Math.abs(coordsCourierY - coordsRestaurantY) <= KOEF_DISTANCE) {
+                double distance = getDistanceByCoords(coordsRestaurant,
+                        courier.getCoordinates());
                 listCouriers.put(distance, courier.getId());
             }
         }
         Iterator<Map.Entry<Double, Long>> iterator = listCouriers.entrySet().iterator();
-        List<Long> couriersId = new ArrayList<>(5);
-        for (int i = 0; i < 5; i++) {
+        List<Long> couriersId = new ArrayList<>(DEFAULT_COUNT_COURIERS);
+        for (int i = 0; i < DEFAULT_COUNT_COURIERS; i++) {
             if (iterator.hasNext()) {
                 Map.Entry<Double, Long> courier = iterator.next();
                 couriersId.add(courier.getValue());
@@ -180,29 +185,31 @@ public class DeliveryServiceImpl implements DeliveryService {
         return couriersId;
     }
 
-    private DeliveriesResponse mapOrderListToDeliveriesResponse(long courierId, List<Order> orderList) {
+    private DeliveriesResponse mapOrderListToDeliveriesResponse(long courierId,
+                                                                List<Order> orderList) {
         List<DeliveryOrderInfoResponse> delivery = new ArrayList<>();
         Courier courier = courierRepository.findById(courierId)
                 .orElseThrow(() -> new NoSuchElementException("Написать сообщение"));
 
         for (Order order : orderList) {
             String restaurantAddress = order.getRestaurantId().getAddress();
-            double distanceCourierToRestaurant = getDistanceCourierToRestaurant(courier
-                    , order.getRestaurantId());
+            double distanceCourierToRestaurant = getDistanceCourierToRestaurant(courier,
+                    order.getRestaurantId());
 
-            var restaurant = new DeliveryRestaurantInfoResponse(restaurantAddress
-                    , distanceCourierToRestaurant);
+            var restaurant = new DeliveryRestaurantInfoResponse(restaurantAddress,
+                    distanceCourierToRestaurant);
 
             String customerAddress = order.getCustomerId().getAddress();
             double distanceRestaurantToCustomer =
-                    getDistanceRestaurantToCustomer(order.getRestaurantId()
-                            , order.getCustomerId());
+                    getDistanceRestaurantToCustomer(order.getRestaurantId(),
+                            order.getCustomerId());
 
-            var customer = new DeliveryCustomerInfoResponse(customerAddress
-                    , distanceRestaurantToCustomer);
+            var customer = new DeliveryCustomerInfoResponse(customerAddress,
+                    distanceRestaurantToCustomer);
 
             BigDecimal payment = BigDecimal.valueOf(Math.abs(restaurant.getDistance())
-                    + Math.abs(customer.getDistance())).multiply(BigDecimal.valueOf(0.2));
+                    + Math.abs(customer.getDistance())).multiply(
+                    BigDecimal.valueOf(PAY_BY_KM));
 
             DeliveryOrderInfoResponse doiResponse = DeliveryOrderInfoResponse.builder()
                     .orderId(order.getUuid())
@@ -215,21 +222,20 @@ public class DeliveryServiceImpl implements DeliveryService {
         return new DeliveriesResponse(delivery);
     }
 
-    private double getDistanceRestaurantToCustomer(Restaurant restaurant
-            , Customer customer) {
+    private double getDistanceRestaurantToCustomer(Restaurant restaurant,
+                                                   Customer customer) {
         String coordsRestaurant = restaurant.getAddress().split("\\|")[1];
         String coordsCustomer = customer.getAddress().split("\\|")[1];
         return getDistanceByCoords(coordsRestaurant, coordsCustomer);
 
     }
 
-    private double getDistanceCourierToRestaurant(Courier courier
-            , Restaurant restaurant) {
+    private double getDistanceCourierToRestaurant(Courier courier,
+                                                  Restaurant restaurant) {
         String coordsCourier = courier.getCoordinates();
         String coordsRestaurant = restaurant.getAddress().split("\\|")[1];
         return getDistanceByCoords(coordsCourier, coordsRestaurant);
     }
-
 
     private OrderStatus checkStatus(String status) {
         for (OrderStatus st : OrderStatus.values()) {
@@ -269,8 +275,8 @@ public class DeliveryServiceImpl implements DeliveryService {
         double sinDelta = Math.sin(delta);
 
         // вычисления длины большого круга
-        double y = Math.sqrt(Math.pow(cosLat2 * sinDelta, 2) +
-                Math.pow(cosLat1 * sinLat2 - sinLat1 * cosLat2 * cosDelta, 2));
+        double y = Math.sqrt(Math.pow(cosLat2 * sinDelta, 2)
+                + Math.pow(cosLat1 * sinLat2 - sinLat1 * cosLat2 * cosDelta, 2));
         double x = sinLat1 * sinLat2 + cosLat1 * cosLat2 * cosDelta;
 
         double atan = Math.atan2(y, x);
@@ -290,7 +296,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         try {
             messageModelToString = objectMapper.writeValueAsString(modelMessageOrder);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
         }
         return messageModelToString;
     }

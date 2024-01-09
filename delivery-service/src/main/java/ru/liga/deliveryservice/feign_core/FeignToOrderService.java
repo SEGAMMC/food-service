@@ -29,7 +29,8 @@ public interface FeignToOrderService {
      * @param orderStatus новый статус заказа
      */
     @PutMapping("/{uuid}/status")
-    void updateOrderStatus(@PathVariable UUID uuid, @RequestBody OrderStatusRequest orderStatus);
+    void updateOrderStatus(@PathVariable UUID uuid,
+                           @RequestBody OrderStatusRequest orderStatus);
 
     /**
      * Получение списка доступных заказов для доставки с соответствующим
@@ -38,7 +39,8 @@ public interface FeignToOrderService {
      * @param orderByStatusAndCoords координаты и статус заказа доступные для доставки
      */
     @PostMapping("/status")
-    List<Order> getOrderListByStatus(OrdersByStatusAndCoordsRequest orderByStatusAndCoords);
+    List<Order> getOrderListByStatus(
+            OrdersByStatusAndCoordsRequest orderByStatusAndCoords);
 
     /**
      * Добавление курьера в заказ
