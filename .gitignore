@@ -2,6 +2,15 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+/client-courier/
+/client-customer/
+/client-restaurant/
+/client-restaurant/src/main/java/
+/client-restaurant/src/main/resources/
+/client-customer/src/main/resources/
+/client-customer/src/main/java/
+/client-courier/src/main/java/
+/client-courier/src/main/resources/
 
 ### IntelliJ IDEA ###
 .idea/
@@ -37,6 +46,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/client-courier/
+/client-customer/
+/client-restaurant/
 /client-courier/
 /client-customer/
 /client-restaurant/

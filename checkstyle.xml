@@ -19,11 +19,6 @@
     </module>
 
 
-    <!-- https://checkstyle.org/config_javadoc.html#JavadocPackage     -->
-    <!-- Checks that a package-info.java file exists for each package. -->
-    <!-- <module name="JavadocPackage"/> -->
-
-
     <!-- https://checkstyle.org/config_misc.html#NewlineAtEndOfFile -->
     <!--       Checks whether files end with a new line.            -->
     <module name="NewlineAtEndOfFile"/>
@@ -43,7 +38,7 @@
     <!--      Checks for Size Violations.         -->
     <module name="FileLength"/>
     <module name="LineLength">
-        <property name="max" value="120"/>
+        <property name="max" value="90"/>
         <property name="fileExtensions" value="java"/>
         <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
     </module>
@@ -73,55 +68,24 @@
     <module name="TreeWalker">
         <!-- https://checkstyle.org/config_javadoc.html -->
         <!--         Checks for Javadoc comments.       -->
-        <!-- <module name="AtclauseOrder"/> -->
-        <!-- <module name="InvalidJavadocPosition"/> -->
-        <!--<module name="JavadocContentLocationCheck"/>-->
-        <!-- <module name="JavadocMethod"/> -->
         <module name="JavadocMissingLeadingAsteriskCheck"/>
         <module name="JavadocMissingWhitespaceAfterAsterisk"/>
-        <!-- <module name="JavadocParagraph"/> -->
         <module name="JavadocStyle">
             <property name="checkFirstSentence" value="false"/>
             <property name="checkEmptyJavadoc" value="true"/>
             <property name="tokens"
                       value="ANNOTATION_DEF, ANNOTATION_FIELD_DEF, CLASS_DEF, CTOR_DEF, ENUM_CONSTANT_DEF, ENUM_DEF, INTERFACE_DEF, METHOD_DEF, VARIABLE_DEF"/>
         </module>
-        <!--<module name="JavadocTagContinuationIndentation"/>-->
-        <!--<module name="JavadocType">-->
-        <!--    <property name="scope" value="public"/>-->
-        <!--</module>-->
-        <!-- <module name="JavadocVariable"/> -->
-<!--         <module name="MissingJavadocMethod"/>-->
-        <!-- <module name="MissingJavadocPackage"/> -->
-        <!-- <module name="MissingJavadocType"/> -->
-<!--        <module name="NonEmptyAtclauseDescription"/>-->
         <module name="SingleLineJavadoc"/>
-        <!-- <module name="SummaryJavadoc"/> -->
-        <!-- <module name="WriteTag"/> -->
 
 
         <!-- https://checkstyle.org/config_annotation.html -->
         <!--              Annotations                      -->
-        <!-- <module name="AnnotationLocation">-->
-        <!--  <property name="id" value="AnnotationLocationMostCases"/>-->
-        <!--  <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF"/>-->
-        <!-- </module>-->
-        <!-- <module name="AnnotationLocation">-->
-        <!--  <property name="id" value="AnnotationLocationVariables"/>-->
-        <!--  <property name="tokens" value="VARIABLE_DEF"/>-->
-        <!--  <property name="allowSamelineMultipleAnnotations" value="true"/>-->
-        <!-- </module>-->
-        <!-- <module name="AnnotationOnSameLine"/> -->
-        <!-- <module name="AnnotationUseStyle"/> -->
-        <!-- <module name="MissingDeprecated"/> -->
         <module name="MissingOverride"/>
-        <!-- <module name="PackageAnnotation"/> -->
 
 
         <!-- https://checkstyle.org/config_naming.html -->
         <!--      Checks for Naming Conventions.       -->
-        <!-- <module name="AbbreviationAsWordInName"/> -->
-        <!-- <module name="AbstractClassName"/> -->
         <module name="CatchParameterName"/>
         <module name="ClassTypeParameterName"/>
         <module name="ConstantName"/>
@@ -143,11 +107,7 @@
 
         <!-- https://checkstyle.org/config_imports.html -->
         <!--            Checks for imports              -->
-        <module name="AvoidStarImport"/>
-        <!-- <module name="AvoidStaticImport"/> -->
-        <!-- <module name="CustomImportOrder"/> -->
         <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
-        <!-- <module name="ImportControl"/> -->
         <module name="ImportOrder">
             <property name="option" value="under"/>
             <property name="sortStaticImportsAlphabetically" value="true"/>
@@ -161,20 +121,16 @@
         <module name="AnonInnerLength">
             <property name="max" value="40"/>
         </module>
-        <!-- <module name="ExecutableStatementCount"/> -->
         <module name="LambdaBodyLength">
             <property name="max" value="40"/>
         </module>
-        <!-- <module name="MethodCount"/> -->
         <module name="MethodLength"/>
         <module name="OuterTypeNumber"/>
         <module name="ParameterNumber"/>
-        <!-- <module name="RecordComponentNumber"/> -->
 
 
         <!-- https://checkstyle.org/config_whitespace.html -->
         <!--          Checks for whitespace                -->
-        <!-- <module name="EmptyForInitializerPad"/> -->
         <module name="EmptyForIteratorPad"/>
         <module name="EmptyLineSeparator">
             <property name="allowNoEmptyLineBetweenFields" value="true"/>
@@ -212,7 +168,6 @@
             <property name="tokens" value="METHOD_REF"/>
             <property name="option" value="nl"/>
         </module>
-        <!-- <module name="SingleSpaceSeparator"/> -->
         <module name="TypecastParenPad"/>
         <module name="WhitespaceAfter"/>
         <module name="WhitespaceAround">
@@ -230,9 +185,6 @@
 
         <!-- https://checkstyle.org/config_modifier.html -->
         <!--             Modifier Checks                 -->
-        <!-- <module name="ClassMemberImpliedModifier"/> -->
-        <!-- <module name="InterfaceMemberImpliedModifier"/> -->
-        <!--<module name="ModifierOrder"/>-->
         <module name="RedundantModifier"/>
 
 
@@ -252,30 +204,18 @@
 
         <!-- https://checkstyle.org/config_coding.html -->
         <!--      Checks for common coding problems    -->
-        <!-- <module name="ArrayTrailingComma"/> -->
-        <!-- <module name="AvoidDoubleBraceInitialization"/> -->
-        <!-- <module name="AvoidInlineConditionals"/> -->
         <module name="AvoidNoArgumentSuperConstructorCall"/>
         <module name="CovariantEquals"/>
-        <!--<module name="DeclarationOrder"/>-->
         <module name="DefaultComesLast"/>
         <module name="EmptyStatement"/>
-        <!-- <module name="EqualsAvoidNull"/> -->
         <module name="EqualsHashCode"/>
-        <!-- <module name="ExplicitInitialization"/> -->
         <module name="FallThrough"/>
-        <!-- <module name="FinalLocalVariable"/> -->
         <module name="HiddenField">
             <property name="tokens" value="VARIABLE_DEF"/>
         </module>
-        <!-- <module name="IllegalCatch"/> -->
         <module name="IllegalInstantiation">
             <property name="classes" value="java.lang.Boolean"/>
         </module>
-        <!-- <module name="IllegalThrows"/> -->
-        <!-- <module name="IllegalToken"/> -->
-        <!-- <module name="IllegalTokenText"/> -->
-        <!-- <module name="IllegalType"/> -->
         <module name="InnerAssignment"/>
         <module name="MagicNumber">
             <property name="ignoreHashCodeMethod" value="true"/>
@@ -283,13 +223,8 @@
             <message key="magic.number"
                      value="Most likely the value ''{0}'' is a configuration one. You should move it to configuration file instead of source code."/>
         </module>
-        <!-- <module name="MissingCtor"/> -->
         <module name="MissingSwitchDefault"/>
         <module name="ModifiedControlVariable"/>
-<!--        <module name="MultipleStringLiterals">-->
-<!--            &lt;!&ndash; Allow zero-length and 1-character strings &ndash;&gt;-->
-<!--            <property name="ignoreStringsRegexp" value='^(("")|(".")|("..")|("..>"))$'/>-->
-<!--        </module>-->
         <module name="MultipleVariableDeclarations"/>
         <module name="NestedForDepth">
             <property name="max" value="2"/>
@@ -300,15 +235,11 @@
         <module name="NestedTryDepth">
             <property name="max" value="2"/>
         </module>
-        <!--<module name="NoArrayTrailingComma"/>-->
-        <!--<module name="NoEnumTrailingComma"/>-->
         <module name="NoClone"/>
         <module name="NoFinalizer"/>
         <module name="OneStatementPerLine"/>
-        <!--<module name="OverloadMethodsDeclarationOrder"/>-->
         <module name="PackageDeclaration"/>
         <module name="ParameterAssignment"/>
-        <!-- <module name="RequireThis"/> -->
         <module name="ReturnCount">
             <property name="max" value="4"/>
         </module>
@@ -317,16 +248,10 @@
         <module name="StringLiteralEquality"/>
         <module name="SuperClone"/>
         <module name="SuperFinalize"/>
-        <!-- <module name="UnnecessaryParentheses"/> -->
-        <!-- <module name="UnnecessarySemicolonInEnumeration"/> -->
-        <!-- <module name="UnnecessarySemicolonInTryWithResources"/> -->
-        <!-- <module name="UnnecessarySemicolonAfterOuterTypeDeclaration"/> -->
-        <!-- <module name="UnusedLocalVariable"/> -->
-        <!-- <module name="VariableDeclarationUsageDistance"/> -->
+
 
         <!-- https://checkstyle.org/config_design.html -->
         <!--       Checks for class design             -->
-        <!-- <module name="DesignForExtension"/> -->
         <module name="FinalClass">
             <property name="severity" value="warning"/>
             <message key="final.class"
@@ -339,31 +264,16 @@
                       value="//*[MODIFIERS//*[@text = 'UtilityClass' or @text='NoArgsConstructor' or @text = 'SpringBootApplication']]/descendant-or-self::node()"/>
         </module>
         <module name="InnerTypeLast"/>
-        <!--<module name="InterfaceIsType"/>-->
         <module name="MutableException"/>
         <module name="OneTopLevelClass"/>
-        <!-- <module name="ThrowsCount"/> -->
-        <!-- <module name="VisibilityModifier"/> -->
 
 
         <!-- Miscellaneous other checks.                   -->
         <!-- https://checkstyle.org/config_misc.html -->
         <module name="ArrayTypeStyle"/>
-        <!-- <module name="AvoidEscapedUnicodeCharacters"/> -->
-        <!-- <module name="CommentsIndentation"/> -->
-        <!-- <module name="DescendantToken"/> -->
-        <!-- <module name="FinalParameters"/> -->
         <module name="NoCodeInFile"/>
 
-        <!-- https://github.com/checkstyle/checkstyle/issues/3122 -->
-        <!-- https://github.com/checkstyle/checkstyle/issues/3342 -->
-        <!-- this module is broken for a long time, I'm not sure we should use it -->
-        <!-- <module name="Indentation"/> -->
-
-        <!-- <module name="OrderedProperties"/> -->
         <module name="OuterTypeFilename"/>
-        <!-- <module name="TodoComment" /> -->
-        <!-- <module name="TrailingComment"/> -->
         <module name="UncommentedMain">
             <property name="excludedClasses" value="Application|Main"/>
         </module>
@@ -372,14 +282,9 @@
 
         <!-- https://checkstyle.org/config_metrics.html -->
         <!--         Checks for Code Metrics.           -->
-        <!-- <module name="BooleanExpressionComplexity"/> -->
-        <!-- <module name="ClassDataAbstractionCoupling"/> -->
-        <!-- <module name="ClassFanOutComplexity"/> -->
         <module name="CyclomaticComplexity">
             <property name="max" value="16"/>
         </module>
-        <!-- <module name="JavaNCSS"/> -->
-        <!-- <module name="NPathComplexity"/> -->
 
 
         <!-- https://checkstyle.org/config_regexp.html -->
@@ -405,10 +310,8 @@
         <!-- https://checkstyle.org/config_filters.html -->
         <!-- Comments/annotation suppression.           -->
         <module name="SuppressionCommentFilter"/>
-        <!-- <module name="SuppressWarnings"/> -->
         <module name="SuppressWarningsHolder"/>
         <module name="SuppressWithNearbyCommentFilter"/>
 
     </module>
-
 </module>
