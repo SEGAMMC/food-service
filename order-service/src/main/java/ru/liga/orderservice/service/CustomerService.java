@@ -10,7 +10,7 @@ public interface CustomerService {
 
     Customer getCustomerById(long id);
 
-    void updateCustomer(long id, UpdateCustomerRequest updateCustomerRequest );
+    void updateCustomer(long id, UpdateCustomerRequest updateCustomerRequest);
 
     void updateCustomerStatus(long id, CustomerStatusRequest customerStatusRequest);
 

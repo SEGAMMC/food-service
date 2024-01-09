@@ -38,6 +38,7 @@ public interface FeignToRestaurant {
      * @return возвращает информацию о блюде из ресторана
      */
     @PostMapping("/menuitems/list/service")
-    List<RestaurantMenuItem> getListMenuItemForService(@RequestBody List<Long> listMenuItemId);
+    List<RestaurantMenuItem> getListMenuItemForService(
+            @RequestBody List<Long> listMenuItemId);
 }
 

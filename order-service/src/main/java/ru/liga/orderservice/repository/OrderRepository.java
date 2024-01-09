@@ -8,6 +8,7 @@ import ru.liga.common.enums.OrderStatus;
 import java.util.List;
 import java.util.UUID;
 
+
 /**
  * Репозиторий для работы с заказами (Order)
  */
@@ -18,7 +19,7 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
 
     List<Order> getOrdersByCustomerId(long id);
 
-    List<Order> getOrdersByRestaurantIdAndStatus(Restaurant restaurant
-            , OrderStatus orderStatus);
+    List<Order> getOrdersByRestaurantIdAndStatus(Restaurant restaurant,
+                                                 OrderStatus orderStatus);
 
 }

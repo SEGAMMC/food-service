@@ -37,8 +37,8 @@ public class CustomerController {
      * @param updateCustomerRequest новая информация о клиенте
      */
     @PutMapping("/{id}")
-    public void updateCustomer(@PathVariable Long id
-            , @RequestBody UpdateCustomerRequest updateCustomerRequest) {
+    public void updateCustomer(@PathVariable Long id,
+                               @RequestBody UpdateCustomerRequest updateCustomerRequest) {
         customerService.updateCustomer(id, updateCustomerRequest);
     }
 
@@ -49,8 +49,9 @@ public class CustomerController {
      * @param customerStatusRequest новый статус клиента
      */
     @PutMapping("/{id}/status")
-    public void updateCustomerStatus(@PathVariable long id
-            , @RequestBody CustomerStatusRequest customerStatusRequest) {
+    public void updateCustomerStatus(@PathVariable long id,
+                                     @RequestBody CustomerStatusRequest
+                                             customerStatusRequest) {
         customerService.updateCustomerStatus(id, customerStatusRequest);
     }
 }

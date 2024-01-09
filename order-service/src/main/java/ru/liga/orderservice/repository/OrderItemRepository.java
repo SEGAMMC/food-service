@@ -7,8 +7,5 @@ import ru.liga.common.entity.OrderItem;
 import java.util.List;
 
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
-
     List<OrderItem> findOrderItemByOrderId(Order order);
-
-
 }

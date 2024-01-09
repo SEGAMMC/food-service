@@ -63,45 +63,81 @@ public class RoutingMQConfig {
         return new Declarables(
                 notificationExchange, deliveriesExchange, restaurantsExchange,
                 ordersNewForNotification, ordersNewForDelivery, ordersNewForRestaurant,
-                BindingBuilder.bind(ordersNewForNotification).to(notificationExchange).with("push.new"),
-                BindingBuilder.bind(ordersNewForDelivery).to(deliveriesExchange).with("order.delivery.new"),
-                BindingBuilder.bind(ordersNewForRestaurant).to(restaurantsExchange).with("order.restaurant.new"),
+                BindingBuilder.bind(ordersNewForNotification).to(notificationExchange)
+                        .with("push.new"),
+                BindingBuilder.bind(ordersNewForDelivery).to(deliveriesExchange)
+                        .with("order.delivery.new"),
+                BindingBuilder.bind(ordersNewForRestaurant).to(restaurantsExchange)
+                        .with("order.restaurant.new"),
 
-                restaurant1, restaurant2, restaurant3, restaurant4, restaurant5, restaurant6, restaurant7, restaurant8, restaurant9, restaurant10,
-                BindingBuilder.bind(restaurant1).to(notificationExchange).with("push.restaurant.1"),
-                BindingBuilder.bind(restaurant2).to(notificationExchange).with("push.restaurant.2"),
-                BindingBuilder.bind(restaurant3).to(notificationExchange).with("push.restaurant.3"),
-                BindingBuilder.bind(restaurant4).to(notificationExchange).with("push.restaurant.4"),
-                BindingBuilder.bind(restaurant5).to(notificationExchange).with("push.restaurant.5"),
-                BindingBuilder.bind(restaurant6).to(notificationExchange).with("push.restaurant.6"),
-                BindingBuilder.bind(restaurant7).to(notificationExchange).with("push.restaurant.7"),
-                BindingBuilder.bind(restaurant8).to(notificationExchange).with("push.restaurant.8"),
-                BindingBuilder.bind(restaurant9).to(notificationExchange).with("push.restaurant.9"),
-                BindingBuilder.bind(restaurant10).to(notificationExchange).with("push.restaurant.10"),
+                restaurant1, restaurant2, restaurant3, restaurant4, restaurant5,
+                restaurant6, restaurant7, restaurant8, restaurant9, restaurant10,
+                BindingBuilder.bind(restaurant1).to(notificationExchange)
+                        .with("push.restaurant.1"),
+                BindingBuilder.bind(restaurant2).to(notificationExchange)
+                        .with("push.restaurant.2"),
+                BindingBuilder.bind(restaurant3).to(notificationExchange)
+                        .with("push.restaurant.3"),
+                BindingBuilder.bind(restaurant4).to(notificationExchange)
+                        .with("push.restaurant.4"),
+                BindingBuilder.bind(restaurant5).to(notificationExchange)
+                        .with("push.restaurant.5"),
+                BindingBuilder.bind(restaurant6).to(notificationExchange)
+                        .with("push.restaurant.6"),
+                BindingBuilder.bind(restaurant7).to(notificationExchange)
+                        .with("push.restaurant.7"),
+                BindingBuilder.bind(restaurant8).to(notificationExchange)
+                        .with("push.restaurant.8"),
+                BindingBuilder.bind(restaurant9).to(notificationExchange)
+                        .with("push.restaurant.9"),
+                BindingBuilder.bind(restaurant10).to(notificationExchange)
+                        .with("push.restaurant.10"),
 
-                courier1, courier2, courier3, courier4, courier5, courier6, courier7, courier8, courier9, courier10,
-                BindingBuilder.bind(courier1).to(notificationExchange).with("push.courier.1"),
-                BindingBuilder.bind(courier2).to(notificationExchange).with("push.courier.2"),
-                BindingBuilder.bind(courier3).to(notificationExchange).with("push.courier.3"),
-                BindingBuilder.bind(courier4).to(notificationExchange).with("push.courier.4"),
-                BindingBuilder.bind(courier5).to(notificationExchange).with("push.courier.5"),
-                BindingBuilder.bind(courier6).to(notificationExchange).with("push.courier.6"),
-                BindingBuilder.bind(courier7).to(notificationExchange).with("push.courier.7"),
-                BindingBuilder.bind(courier8).to(notificationExchange).with("push.courier.8"),
-                BindingBuilder.bind(courier9).to(notificationExchange).with("push.courier.9"),
-                BindingBuilder.bind(courier10).to(notificationExchange).with("push.courier.10"),
+                courier1, courier2, courier3, courier4, courier5, courier6,
+                courier7, courier8, courier9, courier10,
+                BindingBuilder.bind(courier1).to(notificationExchange)
+                        .with("push.courier.1"),
+                BindingBuilder.bind(courier2).to(notificationExchange)
+                        .with("push.courier.2"),
+                BindingBuilder.bind(courier3).to(notificationExchange)
+                        .with("push.courier.3"),
+                BindingBuilder.bind(courier4).to(notificationExchange)
+                        .with("push.courier.4"),
+                BindingBuilder.bind(courier5).to(notificationExchange)
+                        .with("push.courier.5"),
+                BindingBuilder.bind(courier6).to(notificationExchange)
+                        .with("push.courier.6"),
+                BindingBuilder.bind(courier7).to(notificationExchange)
+                        .with("push.courier.7"),
+                BindingBuilder.bind(courier8).to(notificationExchange)
+                        .with("push.courier.8"),
+                BindingBuilder.bind(courier9).to(notificationExchange)
+                        .with("push.courier.9"),
+                BindingBuilder.bind(courier10).to(notificationExchange)
+                        .with("push.courier.10"),
 
-                customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8, customer9, customer10,
-                BindingBuilder.bind(customer1).to(notificationExchange).with("push.customer.1"),
-                BindingBuilder.bind(customer2).to(notificationExchange).with("push.customer.2"),
-                BindingBuilder.bind(customer3).to(notificationExchange).with("push.customer.3"),
-                BindingBuilder.bind(customer4).to(notificationExchange).with("push.customer.4"),
-                BindingBuilder.bind(customer5).to(notificationExchange).with("push.customer.5"),
-                BindingBuilder.bind(customer6).to(notificationExchange).with("push.customer.6"),
-                BindingBuilder.bind(customer7).to(notificationExchange).with("push.customer.7"),
-                BindingBuilder.bind(customer8).to(notificationExchange).with("push.customer.8"),
-                BindingBuilder.bind(customer9).to(notificationExchange).with("push.customer.9"),
-                BindingBuilder.bind(customer10).to(notificationExchange).with("push.customer.10")
+                customer1, customer2, customer3, customer4, customer5,
+                customer6, customer7, customer8, customer9, customer10,
+                BindingBuilder.bind(customer1).to(notificationExchange)
+                        .with("push.customer.1"),
+                BindingBuilder.bind(customer2).to(notificationExchange)
+                        .with("push.customer.2"),
+                BindingBuilder.bind(customer3).to(notificationExchange)
+                        .with("push.customer.3"),
+                BindingBuilder.bind(customer4).to(notificationExchange)
+                        .with("push.customer.4"),
+                BindingBuilder.bind(customer5).to(notificationExchange)
+                        .with("push.customer.5"),
+                BindingBuilder.bind(customer6).to(notificationExchange)
+                        .with("push.customer.6"),
+                BindingBuilder.bind(customer7).to(notificationExchange)
+                        .with("push.customer.7"),
+                BindingBuilder.bind(customer8).to(notificationExchange)
+                        .with("push.customer.8"),
+                BindingBuilder.bind(customer9).to(notificationExchange)
+                        .with("push.customer.9"),
+                BindingBuilder.bind(customer10).to(notificationExchange)
+                        .with("push.customer.10")
         );
     }
 }

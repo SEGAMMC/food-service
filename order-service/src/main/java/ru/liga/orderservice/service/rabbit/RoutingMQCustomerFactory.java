@@ -20,8 +20,8 @@ public class RoutingMQCustomerFactory {
         Queue newCustomer = new Queue("Customer" + customerId, false);
         DirectExchange directExchange = new DirectExchange("NotificationsExchange");
 
-        return new Declarables(newCustomer, directExchange, BindingBuilder.bind(newCustomer)
-                .to(directExchange).with("push.customer." + customerId));
+        return new Declarables(newCustomer, directExchange,
+                BindingBuilder.bind(newCustomer).to(directExchange)
+                        .with("push.customer." + customerId));
     }
-
 }
