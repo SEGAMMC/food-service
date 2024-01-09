@@ -8,6 +8,7 @@ import ru.liga.restaurantservice.dto.response.OrderResponse;
 import java.util.List;
 import java.util.UUID;
 
+
 public interface KitchenService {
     void updateOrderStatusByBody(UUID uuid, OrderStatusRequest orderStatus);
 

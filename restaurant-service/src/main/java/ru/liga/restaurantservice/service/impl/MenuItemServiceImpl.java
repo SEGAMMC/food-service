@@ -70,7 +70,8 @@ public class MenuItemServiceImpl implements MenuItemService {
      * @param updatePriceMenuItem новая цена блюда
      */
     @Override
-    public void updatePriceMenuItem(long itemId, UpdatePriceMenuItemRequest updatePriceMenuItem) {
+    public void updatePriceMenuItem(long itemId,
+                                    UpdatePriceMenuItemRequest updatePriceMenuItem) {
         //TODO ввести проверку  запроса
         RestaurantMenuItem menuItem = menuItemRepository.findById(itemId)
                 .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
@@ -85,7 +86,8 @@ public class MenuItemServiceImpl implements MenuItemService {
      * @param updateItemStatusRequest новый статус блюда
      */
     @Override
-    public void updateItemStatus(long itemId, UpdateItemStatusRequest updateItemStatusRequest) {
+    public void updateItemStatus(long itemId,
+                                 UpdateItemStatusRequest updateItemStatusRequest) {
         updateItemStatus(itemId, updateItemStatusRequest.getStatus());
     }
 
@@ -140,20 +142,21 @@ public class MenuItemServiceImpl implements MenuItemService {
                 .restaurantId(menuItem.getRestaurantId().getId())
                 .name(menuItem.getName())
                 .price(menuItem.getPrice())
-                .image_url(menuItem.getImage_url())
+                .imageUrl(menuItem.getImageUrl())
                 .description(menuItem.getDescription())
                 .status(menuItem.getStatus())
                 .build();
     }
 
     private RestaurantMenuItem mapMenuItemRequestToMenuItem(MenuItemRequest newMenuItem) {
-        Restaurant restaurant = restaurantRepository.findById(newMenuItem.getRestaurantId())
+        Restaurant restaurant = restaurantRepository.findById(
+                        newMenuItem.getRestaurantId())
                 .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
         return RestaurantMenuItem.builder()
                 .restaurantId(restaurant)
                 .name(newMenuItem.getName())
                 .price(newMenuItem.getPrice())
-                .image_url(newMenuItem.getImage_url())
+                .imageUrl(newMenuItem.getImageUrl())
                 .description(newMenuItem.getDescription())
                 .status(newMenuItem.getStatus())
                 .build();

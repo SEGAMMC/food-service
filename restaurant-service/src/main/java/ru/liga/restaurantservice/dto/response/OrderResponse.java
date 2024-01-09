@@ -14,9 +14,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class OrderResponse {
-
     private UUID id;
+
     private RestaurantResponse restaurant;
+
     private LocalDateTime timestamp;
+
     private List<OrderItemResponse> items;
+
 }

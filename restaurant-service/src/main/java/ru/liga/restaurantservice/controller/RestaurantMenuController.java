@@ -39,7 +39,8 @@ public class RestaurantMenuController {
      * @param newMenuItem параметры нового блюда
      */
     @PostMapping
-    public ResponseEntity<MenuItemResponse> createNewMenuItem(@RequestBody MenuItemRequest newMenuItem) {
+    public ResponseEntity<MenuItemResponse> createNewMenuItem(
+            @RequestBody MenuItemRequest newMenuItem) {
         return ResponseEntity.ok(menuItemService.createNewMenuItem(newMenuItem));
     }
 
@@ -50,8 +51,8 @@ public class RestaurantMenuController {
      * @param updateMenuItem параметры измененного блюда
      */
     @PutMapping("/{itemId}")
-    public void updateMenuItem(@PathVariable long itemId
-            , @RequestBody MenuItemRequest updateMenuItem) {
+    public void updateMenuItem(@PathVariable long itemId,
+                               @RequestBody MenuItemRequest updateMenuItem) {
         menuItemService.updateMenuItem(itemId, updateMenuItem);
     }
 
@@ -62,8 +63,8 @@ public class RestaurantMenuController {
      * @param updatePriceMenuItem новая цена блюда
      */
     @PutMapping("/{itemId}/price")
-    public void updatePriceItem(@PathVariable long itemId
-            , @RequestBody UpdatePriceMenuItemRequest updatePriceMenuItem) {
+    public void updatePriceItem(@PathVariable long itemId,
+                                @RequestBody UpdatePriceMenuItemRequest updatePriceMenuItem) {
         menuItemService.updatePriceMenuItem(itemId, updatePriceMenuItem);
     }
 
@@ -74,8 +75,8 @@ public class RestaurantMenuController {
      * @param updateItemStatusRequest новая статус блюда
      */
     @PutMapping("/{itemId}/status")
-    public void updateItemStatus(@PathVariable long itemId
-            , @RequestBody UpdateItemStatusRequest updateItemStatusRequest) {
+    public void updateItemStatus(@PathVariable long itemId,
+                                 @RequestBody UpdateItemStatusRequest updateItemStatusRequest) {
         menuItemService.updateItemStatus(itemId, updateItemStatusRequest);
     }
 
@@ -129,8 +130,8 @@ public class RestaurantMenuController {
      * @return возвращает информацию о блюде из ресторана
      */
     @PostMapping("/list/service")
-    public List<RestaurantMenuItem> getListMenuItemForService(@RequestBody
-                                                              List<Long> listMenuItemId) {
+    public List<RestaurantMenuItem> getListMenuItemForService(
+            @RequestBody List<Long> listMenuItemId) {
         return menuItemService.getListMenuItemForService(listMenuItemId);
     }
 }

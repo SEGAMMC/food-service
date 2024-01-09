@@ -9,6 +9,7 @@ import ru.liga.restaurantservice.dto.response.OrderResponse;
 import java.util.List;
 import java.util.UUID;
 
+
 @FeignClient(name = "order-service", url = "http://localhost:8081/api/v1/orders")
 public interface FeignToOrderService {
 
@@ -27,7 +28,8 @@ public interface FeignToOrderService {
      * @param orderStatus новый статус заказа
      */
     @PutMapping("/{uuid}/status")
-    void updateOrderStatus(@PathVariable UUID uuid, @RequestBody OrderStatusRequest orderStatus);
+    void updateOrderStatus(@PathVariable UUID uuid,
+                           @RequestBody OrderStatusRequest orderStatus);
 
     /**
      * Получение списка заказов для конкретного ресторана и статуса заказа

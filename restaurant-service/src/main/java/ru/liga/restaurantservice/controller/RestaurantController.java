@@ -12,6 +12,7 @@ import ru.liga.restaurantservice.service.RestaurantService;
 
 import java.util.List;
 
+
 /**
  * Контроллер для работы с ресторанами
  */
@@ -20,7 +21,7 @@ import java.util.List;
 @RequestMapping("/api/v1/restaurants")
 public class RestaurantController {
 
-    private  final RestaurantService restaurantService;
+    private final RestaurantService restaurantService;
 
     /**
      * Получение информации о ресторане по его номеру
@@ -30,9 +31,9 @@ public class RestaurantController {
      */
     @GetMapping("/{restaurantId}")
     public ResponseEntity<RestaurantResponse> getRestaurantById(
-			@PathVariable long restaurantId){
+            @PathVariable long restaurantId) {
         return ResponseEntity.ok(restaurantService
-			.getRestaurantById(restaurantId));
+                .getRestaurantById(restaurantId));
     }
 
     /**
@@ -42,27 +43,27 @@ public class RestaurantController {
      * @param restaurantInfo новая информация о ресторане
      */
     @PutMapping("/{restaurantId}")
-    public void updateRestaurant(@PathVariable long restaurantId
-            , @RequestBody RestaurantUpdateInfoRequest restaurantInfo){
-		restaurantService.updateRestaurantById(restaurantId, restaurantInfo);
+    public void updateRestaurant(@PathVariable long restaurantId,
+                                 @RequestBody RestaurantUpdateInfoRequest restaurantInfo) {
+        restaurantService.updateRestaurantById(restaurantId, restaurantInfo);
     }
 
     /**
      * Изменение статуса ресторана (uuid+JSON)
      *
-     *@param restaurantId идентификационный номер ресторана
-     *@param restaurantStatus новый статус ресторана
+     * @param restaurantId     идентификационный номер ресторана
+     * @param restaurantStatus новый статус ресторана
      */
     @PutMapping("/{restaurantId}/status")
-    public void updateRestaurantStatus(@PathVariable long restaurantId
-            , @RequestBody RestaurantStatusRequest restaurantStatus) {
+    public void updateRestaurantStatus(@PathVariable long restaurantId,
+                                       @RequestBody RestaurantStatusRequest restaurantStatus) {
         restaurantService.updateRestaurantStatus(restaurantId, restaurantStatus);
     }
 
     /**
      * Изменение статуса ресторана на ACTIVE
      *
-     *@param restaurantId идентификационный номер ресторана
+     * @param restaurantId идентификационный номер ресторана
      */
     @PutMapping("/{restaurantId}/status/active")
     public void updateRestaurantStatusActive(@PathVariable long restaurantId) {

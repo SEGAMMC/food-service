@@ -11,8 +11,8 @@ import ru.liga.common.enums.RestaurantStatus;
 @NoArgsConstructor
 @Builder
 public class RestaurantResponse {
-	
-	private String name;
+
+    private String name;
 
     private String address;
 

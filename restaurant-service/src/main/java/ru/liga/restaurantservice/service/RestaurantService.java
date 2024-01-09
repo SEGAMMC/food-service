@@ -8,14 +8,15 @@ import ru.liga.restaurantservice.dto.response.RestaurantResponse;
 
 import java.util.List;
 
+
 public interface RestaurantService {
     RestaurantResponse getRestaurantById(long restaurantId);
 
-    void updateRestaurantById(long restaurantId
-            , RestaurantUpdateInfoRequest restaurantInfo);
+    void updateRestaurantById(long restaurantId,
+                              RestaurantUpdateInfoRequest restaurantInfo);
 
-    void updateRestaurantStatus(long restaurantId
-            , RestaurantStatusRequest restaurantStatus);
+    void updateRestaurantStatus(long restaurantId,
+                                RestaurantStatusRequest restaurantStatus);
 
     void updateRestaurantStatusActive(long restaurantId);
 

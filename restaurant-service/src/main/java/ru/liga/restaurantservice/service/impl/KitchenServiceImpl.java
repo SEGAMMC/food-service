@@ -12,6 +12,7 @@ import ru.liga.restaurantservice.service.KitchenService;
 import java.util.List;
 import java.util.UUID;
 
+
 /**
  * Сервис для работы кухни с заказами
  */
@@ -125,7 +126,8 @@ public class KitchenServiceImpl implements KitchenService {
      * @return список заказов имеющие нужный статус
      */
     @Override
-    public List<OrderResponse> getOrderByRestaurantAndStatus(long restaurantId, String status) {
+    public List<OrderResponse> getOrderByRestaurantAndStatus(long restaurantId,
+                                                             String status) {
         return feignToOrderService.getOrderByRestaurantAndStatus(restaurantId, status);
     }
 

@@ -1,6 +1,5 @@
 package ru.liga.restaurantservice.dto.request;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +19,7 @@ public class MenuItemRequest {
 
     private BigDecimal price;
 
-    private String image_url;
+    private String imageUrl;
 
     private String description;
 

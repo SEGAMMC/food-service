@@ -11,6 +11,7 @@ import ru.liga.restaurantservice.service.KitchenService;
 import java.util.List;
 import java.util.UUID;
 
+
 /**
  * Контроллер для работы кухни с заказами
  */
@@ -28,7 +29,8 @@ public class KitchenController {
      * @param uuid идентификационный номер заказа
      */
     @GetMapping("/orders/{uuid}")
-    public ResponseEntity<List<OrderItemForRestaurantResponse>> getOrderItemsByUuid(@PathVariable UUID uuid) {
+    public ResponseEntity<List<OrderItemForRestaurantResponse>> getOrderItemsByUuid(
+            @PathVariable UUID uuid) {
         return ResponseEntity.ok(kitchenService.getOrderItemsByUuid(uuid));
     }
 
@@ -45,7 +47,8 @@ public class KitchenController {
     public ResponseEntity<List<OrderResponse>> getOrderByRestaurantAndStatus(
             @RequestParam long restaurantId,
             @RequestParam String status) {
-        return ResponseEntity.ok(kitchenService.getOrderByRestaurantAndStatus(restaurantId, status));
+        return ResponseEntity.ok(kitchenService
+                .getOrderByRestaurantAndStatus(restaurantId, status));
     }
 
 
@@ -56,7 +59,8 @@ public class KitchenController {
      * @param orderStatus новый статус заказа
      */
     @PutMapping("/orders/{uuid}/status")
-    public void updateOrderStatus(@PathVariable UUID uuid, @RequestBody OrderStatusRequest orderStatus) {
+    public void updateOrderStatus(@PathVariable UUID uuid,
+                                  @RequestBody OrderStatusRequest orderStatus) {
         kitchenService.updateOrderStatusByBody(uuid, orderStatus);
     }
 

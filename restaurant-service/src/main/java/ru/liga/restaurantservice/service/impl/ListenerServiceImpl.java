@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 import ru.liga.common.entity.ModelMessageOrder;
@@ -12,6 +13,7 @@ import ru.liga.common.enums.MessageType;
 import ru.liga.restaurantservice.service.ListenerService;
 import ru.liga.restaurantservice.service.RabbitMQProducerService;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ListenerServiceImpl implements ListenerService {
@@ -24,7 +26,7 @@ public class ListenerServiceImpl implements ListenerService {
     public void messageListenerContainer(String message) {
         ModelMessageOrder modelMessageOrder = objectMapper
                 .readValue(message, ModelMessageOrder.class);
-        System.out.println(modelMessageOrder);
+        log.info(modelMessageOrder.toString());
 
         ModelMessageOrder messageOrderToPush = objectMapper
                 .readValue(message, ModelMessageOrder.class);
@@ -46,7 +48,7 @@ public class ListenerServiceImpl implements ListenerService {
         try {
             messageModelToString = objectMapper.writeValueAsString(modelMessageOrder);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
         }
         return messageModelToString;
     }

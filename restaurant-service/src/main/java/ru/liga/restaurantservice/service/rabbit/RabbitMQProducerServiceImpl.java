@@ -13,8 +13,8 @@ import ru.liga.restaurantservice.service.RabbitMQProducerService;
 @RequiredArgsConstructor
 public class RabbitMQProducerServiceImpl implements RabbitMQProducerService {
 
-    private final String notificationsExchange = "NotificationsExchange";
-    private final String notificationsExchangeRoutingKey = "push.new";
+    private final static String NOTIFICATIONS_EXCHANGE = "NotificationsExchange";
+    private final static String NOTIFICATIONS_EXCHANGE_ROUTING_KEY = "push.new";
 
     private final RabbitTemplate rabbitTemplate;
 
@@ -26,7 +26,8 @@ public class RabbitMQProducerServiceImpl implements RabbitMQProducerService {
      */
     @Override
     public void sendPushToNotificationsExchange(String message) {
-        rabbitTemplate.convertAndSend(notificationsExchange, notificationsExchangeRoutingKey, message);
+        rabbitTemplate.convertAndSend(NOTIFICATIONS_EXCHANGE,
+                NOTIFICATIONS_EXCHANGE_ROUTING_KEY, message);
     }
 
 }
