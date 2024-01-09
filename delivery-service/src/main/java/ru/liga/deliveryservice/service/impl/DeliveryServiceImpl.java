@@ -2,6 +2,8 @@ package ru.liga.deliveryservice.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.math.BigDecimal;
+import java.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,9 +22,6 @@ import ru.liga.deliveryservice.feign_core.FeignToOrderService;
 import ru.liga.deliveryservice.repository.CourierRepository;
 import ru.liga.deliveryservice.service.DeliveryService;
 import ru.liga.deliveryservice.service.RabbitMQProducerService;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * Сервис для работы курьеров с заказами

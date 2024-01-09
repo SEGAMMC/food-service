@@ -1,5 +1,7 @@
 package ru.liga.restaurantservice.controller;
 
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,10 +9,6 @@ import ru.liga.restaurantservice.dto.request.OrderStatusRequest;
 import ru.liga.restaurantservice.dto.response.OrderItemForRestaurantResponse;
 import ru.liga.restaurantservice.dto.response.OrderResponse;
 import ru.liga.restaurantservice.service.KitchenService;
-
-import java.util.List;
-import java.util.UUID;
-
 
 /**
  * Контроллер для работы кухни с заказами

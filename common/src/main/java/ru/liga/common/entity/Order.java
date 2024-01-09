@@ -1,15 +1,14 @@
 package ru.liga.common.entity;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import ru.liga.common.enums.OrderStatus;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor

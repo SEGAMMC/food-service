@@ -1,5 +1,7 @@
 package ru.liga.orderservice.controller;
 
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +12,6 @@ import ru.liga.orderservice.dto.request.OrderStatusRequest;
 import ru.liga.orderservice.dto.response.OrderPaymentResponse;
 import ru.liga.orderservice.dto.response.OrderResponse;
 import ru.liga.orderservice.service.OrderService;
-
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Контроллер для работы с заказами

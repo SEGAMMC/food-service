@@ -1,14 +1,13 @@
 package ru.liga.orderservice.controller;
 
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.orderservice.dto.request.AddOrderItemRequest;
 import ru.liga.orderservice.dto.request.UpdateOrderItemRequest;
 import ru.liga.orderservice.dto.response.OrderItemForRestaurantResponse;
 import ru.liga.orderservice.service.OrderService;
-
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Контроллер для работы с позициями в заказе

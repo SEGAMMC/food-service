@@ -1,12 +1,11 @@
 package ru.liga.restaurantservice.service;
 
+import java.util.List;
 import ru.liga.common.entity.RestaurantMenuItem;
 import ru.liga.restaurantservice.dto.request.MenuItemRequest;
 import ru.liga.restaurantservice.dto.request.UpdateItemStatusRequest;
 import ru.liga.restaurantservice.dto.request.UpdatePriceMenuItemRequest;
 import ru.liga.restaurantservice.dto.response.MenuItemResponse;
-
-import java.util.List;
 
 public interface MenuItemService {
     MenuItemResponse getMenuItemById(long id);

@@ -1,5 +1,6 @@
 package ru.liga.deliveryservice.service.impl;
 
+import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.liga.common.entity.Courier;
@@ -7,8 +8,6 @@ import ru.liga.deliveryservice.dto.request.UpdateCourierRequest;
 import ru.liga.deliveryservice.dto.response.CourierResponse;
 import ru.liga.deliveryservice.repository.CourierRepository;
 import ru.liga.deliveryservice.service.CourierService;
-
-import java.util.NoSuchElementException;
 
 /**
  * Сервис для работы с курьерами

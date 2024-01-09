@@ -1,13 +1,12 @@
 package ru.liga.deliveryservice.controller;
 
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.deliveryservice.dto.request.OrderStatusRequest;
 import ru.liga.deliveryservice.dto.response.DeliveriesResponse;
 import ru.liga.deliveryservice.service.DeliveryService;
-
-import java.util.UUID;
 
 
 /**

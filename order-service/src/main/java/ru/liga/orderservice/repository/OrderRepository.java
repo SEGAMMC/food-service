@@ -1,13 +1,11 @@
 package ru.liga.orderservice.repository;
 
+import java.util.List;
+import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.liga.common.entity.Order;
 import ru.liga.common.entity.Restaurant;
 import ru.liga.common.enums.OrderStatus;
-
-import java.util.List;
-import java.util.UUID;
-
 
 /**
  * Репозиторий для работы с заказами (Order)

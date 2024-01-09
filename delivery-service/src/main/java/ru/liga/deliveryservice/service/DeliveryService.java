@@ -1,10 +1,9 @@
 package ru.liga.deliveryservice.service;
 
+import java.util.UUID;
 import ru.liga.common.entity.ModelMessageOrder;
 import ru.liga.deliveryservice.dto.request.OrderStatusRequest;
 import ru.liga.deliveryservice.dto.response.DeliveriesResponse;
-
-import java.util.UUID;
 
 public interface DeliveryService {
     void updateOrderStatus(UUID uuid, OrderStatusRequest orderStatus);

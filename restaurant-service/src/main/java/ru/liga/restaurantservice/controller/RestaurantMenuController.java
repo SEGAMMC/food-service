@@ -1,5 +1,6 @@
 package ru.liga.restaurantservice.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,8 +10,6 @@ import ru.liga.restaurantservice.dto.request.UpdateItemStatusRequest;
 import ru.liga.restaurantservice.dto.request.UpdatePriceMenuItemRequest;
 import ru.liga.restaurantservice.dto.response.MenuItemResponse;
 import ru.liga.restaurantservice.service.MenuItemService;
-
-import java.util.List;
 
 /**
  * Контроллер для работы с меню ресторана
@@ -63,8 +62,9 @@ public class RestaurantMenuController {
      * @param updatePriceMenuItem новая цена блюда
      */
     @PutMapping("/{itemId}/price")
-    public void updatePriceItem(@PathVariable long itemId,
-                                @RequestBody UpdatePriceMenuItemRequest updatePriceMenuItem) {
+    public void updatePriceItem(
+            @PathVariable long itemId,
+            @RequestBody UpdatePriceMenuItemRequest updatePriceMenuItem) {
         menuItemService.updatePriceMenuItem(itemId, updatePriceMenuItem);
     }
 
@@ -75,8 +75,9 @@ public class RestaurantMenuController {
      * @param updateItemStatusRequest новая статус блюда
      */
     @PutMapping("/{itemId}/status")
-    public void updateItemStatus(@PathVariable long itemId,
-                                 @RequestBody UpdateItemStatusRequest updateItemStatusRequest) {
+    public void updateItemStatus(
+            @PathVariable long itemId,
+            @RequestBody UpdateItemStatusRequest updateItemStatusRequest) {
         menuItemService.updateItemStatus(itemId, updateItemStatusRequest);
     }
 

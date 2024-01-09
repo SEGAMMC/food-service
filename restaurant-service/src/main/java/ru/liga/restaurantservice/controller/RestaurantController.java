@@ -1,5 +1,6 @@
 package ru.liga.restaurantservice.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,9 +10,6 @@ import ru.liga.restaurantservice.dto.request.RestaurantUpdateInfoRequest;
 import ru.liga.restaurantservice.dto.response.MenuItemForListResponse;
 import ru.liga.restaurantservice.dto.response.RestaurantResponse;
 import ru.liga.restaurantservice.service.RestaurantService;
-
-import java.util.List;
-
 
 /**
  * Контроллер для работы с ресторанами
@@ -43,8 +41,9 @@ public class RestaurantController {
      * @param restaurantInfo новая информация о ресторане
      */
     @PutMapping("/{restaurantId}")
-    public void updateRestaurant(@PathVariable long restaurantId,
-                                 @RequestBody RestaurantUpdateInfoRequest restaurantInfo) {
+    public void updateRestaurant(
+            @PathVariable long restaurantId,
+            @RequestBody RestaurantUpdateInfoRequest restaurantInfo) {
         restaurantService.updateRestaurantById(restaurantId, restaurantInfo);
     }
 
@@ -55,8 +54,9 @@ public class RestaurantController {
      * @param restaurantStatus новый статус ресторана
      */
     @PutMapping("/{restaurantId}/status")
-    public void updateRestaurantStatus(@PathVariable long restaurantId,
-                                       @RequestBody RestaurantStatusRequest restaurantStatus) {
+    public void updateRestaurantStatus(
+            @PathVariable long restaurantId,
+            @RequestBody RestaurantStatusRequest restaurantStatus) {
         restaurantService.updateRestaurantStatus(restaurantId, restaurantStatus);
     }
 

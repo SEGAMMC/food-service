@@ -2,6 +2,12 @@ package ru.liga.orderservice.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,14 +24,6 @@ import ru.liga.orderservice.repository.OrderItemRepository;
 import ru.liga.orderservice.repository.OrderRepository;
 import ru.liga.orderservice.service.OrderService;
 import ru.liga.orderservice.service.RabbitMQProducerService;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
-
 
 /**
  * Сервис для работы с заказами (Orders)
@@ -546,8 +544,9 @@ public class OrderServiceImpl implements OrderService {
      * @param actionType  тип события о котором надо оповестить
      * @return возвращается ответ для оправки push-сообщения  (entity)
      */
-    private ModelMessageOrder mapOrderToModelMessageOrder(Order order,
-                                                          MessageType messageType, ActionType actionType) {
+    private ModelMessageOrder mapOrderToModelMessageOrder(
+            Order order,
+            MessageType messageType, ActionType actionType) {
         return ModelMessageOrder.builder()
                 .uuid(order.getUuid())
                 .customerId(order.getCustomerId().getId())

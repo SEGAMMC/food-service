@@ -2,6 +2,7 @@ package ru.liga.notificationservice.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -9,8 +10,6 @@ import org.springframework.stereotype.Service;
 import ru.liga.common.entity.ModelMessageOrder;
 import ru.liga.common.enums.ActionType;
 import ru.liga.notificationservice.service.PushClientService;
-
-import java.util.List;
 
 /**
  * Сервис для отправки push уведомления на сторону клиента через RabbitMQ

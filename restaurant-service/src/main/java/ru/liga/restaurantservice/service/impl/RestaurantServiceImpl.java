@@ -1,5 +1,7 @@
 package ru.liga.restaurantservice.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.liga.common.entity.Restaurant;
@@ -13,9 +15,6 @@ import ru.liga.restaurantservice.handler.NoSuchElementException;
 import ru.liga.restaurantservice.repository.MenuItemRepository;
 import ru.liga.restaurantservice.repository.RestaurantRepository;
 import ru.liga.restaurantservice.service.RestaurantService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Сервис для работы с ресторанами

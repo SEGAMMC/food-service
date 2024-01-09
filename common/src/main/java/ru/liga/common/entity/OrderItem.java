@@ -1,12 +1,11 @@
 package ru.liga.common.entity;
 
+import java.math.BigDecimal;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor

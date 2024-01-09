@@ -1,11 +1,10 @@
 package ru.liga.notificationservice.service.rabbit;
 
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import ru.liga.notificationservice.service.RabbitMQProducerService;
-
-import java.util.UUID;
 
 /**
  * Сервис предназначен для отправки сообщений с заказами в ресторан
