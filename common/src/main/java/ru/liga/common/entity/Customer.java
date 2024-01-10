@@ -1,6 +1,7 @@
 package ru.liga.common.entity;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
