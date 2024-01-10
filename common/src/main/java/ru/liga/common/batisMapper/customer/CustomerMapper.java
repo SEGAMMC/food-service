@@ -8,6 +8,6 @@ public interface CustomerMapper {
 
     Customer getCustomerByEmail(String email);
 
-    void updateCustomerPhone(Customer Customer);
+    void updateCustomerPhone(Customer customer);
 
 }

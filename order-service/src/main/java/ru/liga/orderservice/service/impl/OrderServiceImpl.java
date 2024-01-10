@@ -2,7 +2,14 @@ package ru.liga.orderservice.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.liga.common.entity.*;
 import ru.liga.common.enums.ActionType;
@@ -18,16 +25,10 @@ import ru.liga.orderservice.repository.OrderRepository;
 import ru.liga.orderservice.service.OrderService;
 import ru.liga.orderservice.service.RabbitMQProducerService;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
-
 /**
  * Сервис для работы с заказами (Orders)
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -38,10 +39,13 @@ public class OrderServiceImpl implements OrderService {
 
     //TODO сделать с загрузкой из файла
 
-    //TODO рассмотреть ситуацию когда заказ оплатили и он был передан в ресторан, а от него решили отказаться
+    //TODO рассмотреть ситуацию когда заказ оплатили и он был передан
+    // в ресторан, а от него решили отказаться
 
     //TODO придумать как будет проходить оплата
-    private String PREFIX_SECRET_PAYMENT_URL = "http://liga.ru/payment/order/";
+    private static final String PREFIX_SECRET_PAYMENT_URL = "http://liga.ru/"
+            + "payment/order/";
+    private static final int DEFAULT_TIME_DELIVERY = 90;
 
     private final CustomerRepository customerRepository;
     private final OrderItemRepository orderItemRepository;
@@ -60,13 +64,16 @@ public class OrderServiceImpl implements OrderService {
      * @return возвращает ответ с номером заказа, секретным кодом и временем доставки
      */
     @Override
-    public OrderPaymentResponse createNewOrder(long customerId, NewOrderRequest newOrderRequest) {
+    public OrderPaymentResponse createNewOrder(long customerId,
+                                               NewOrderRequest newOrderRequest) {
         //TODO
-        //		{ValidateNewOrderRequest}
+        //ValidateNewOrderRequest
         //TODO  ввести проверку того что клиент существует и может делать заказы
         //TODO  ввести проверку того что позиции заказа соответствуют пунктам меню
-        //TODO  можно добавить возможность при создании заказа указывать на какой адресс будет отправляться заказ
-        //TODO можно добавить возможность изменения адресса доставки до начала его доставки
+        //TODO  можно добавить возможность при создании заказа указывать на какой
+        // адресс будет отправляться заказ
+        //TODO можно добавить возможность изменения адресса доставки
+        // до начала его доставки
 
         //TODO  ввести проверку того ресторан открыт и сможет приготовить до его закрытия
 
@@ -93,14 +100,15 @@ public class OrderServiceImpl implements OrderService {
 
 
         //Отправка push клиенту
-        ModelMessageOrder modelMessageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ORDER_CUSTOMER_CREATED);
+        ModelMessageOrder modelMessageOrder = mapOrderToModelMessageOrder(order,
+                MessageType.PUSH, ActionType.ORDER_CUSTOMER_CREATED);
         String messageToString = mapModelMessageToString(modelMessageOrder);
         rabbitMQProducerService.sendPushToNotificationsExchange(messageToString);
 
         return OrderPaymentResponse.builder()
                 .id(order.getUuid())
                 .secretPaymentUrl(PREFIX_SECRET_PAYMENT_URL + order.getUuid())
-                .estimatedTimeOfArrival(timeCreated.plusMinutes(90))
+                .estimatedTimeOfArrival(timeCreated.plusMinutes(DEFAULT_TIME_DELIVERY))
                 .build();
     }
 
@@ -166,7 +174,8 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public boolean updateOrderStatusComplete(UUID uuid) {
-        return updateOrderStatus(uuid, new OrderStatusRequest(OrderStatus.DELIVERY_COMPLETE));
+        return updateOrderStatus(uuid,
+                new OrderStatusRequest(OrderStatus.DELIVERY_COMPLETE));
     }
 
 
@@ -208,7 +217,9 @@ public class OrderServiceImpl implements OrderService {
         OrderItem orderItem = orderItemRepository.findById(orderItemId)
                 .orElseThrow(() -> new NoSuchElementException("Написать текст"));
         UUID orderUuidCheck = orderItem.getOrderId().getUuid();
-        if (!orderUuidCheck.equals(uuid)) throw new NoSuchElementException("Данная позиция не найдена в заказе");
+        if (!orderUuidCheck.equals(uuid)) {
+            throw new NoSuchElementException("Данная позиция не найдена в заказе");
+        }
         //TODO ввести проверку что заказ еще не начали изготовливать
         orderItemRepository.delete(orderItem);
     }
@@ -220,7 +231,8 @@ public class OrderServiceImpl implements OrderService {
      * @param orderItemId     номер позиции в заказе
      * @param updateOrderItem изменение количества данной позиции в заказ
      */
-    public void updateOrderItem(UUID uuid, long orderItemId, UpdateOrderItemRequest updateOrderItem) {
+    public void updateOrderItem(UUID uuid, long orderItemId,
+                                UpdateOrderItemRequest updateOrderItem) {
         OrderItem orderItem = orderItemRepository.findById(orderItemId)
                 .orElseThrow(() -> new NoSuchElementException("Написать текст"));
 
@@ -232,7 +244,9 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal priceOrderItem = priceMenuItem.multiply(quantity);
 
         UUID orderUuidCheck = orderItem.getOrderId().getUuid();
-        if (!orderUuidCheck.equals(uuid)) throw new NoSuchElementException("Данная позиция не найдена в заказе");
+        if (!orderUuidCheck.equals(uuid)) {
+            throw new NoSuchElementException("Данная позиция не найдена в заказе");
+        }
         //TODO ввести проверку что заказ еще не начали изготовливать
         orderItem.setQuantity(updateOrderItem.getQuantity());
         orderItem.setPrice(priceOrderItem);
@@ -261,10 +275,11 @@ public class OrderServiceImpl implements OrderService {
                     .name(oi.getRestaurantMenuItem().getName())
                     .description(oi.getRestaurantMenuItem().getDescription())
                     .price(oi.getPrice())
-                    .image_url(oi.getRestaurantMenuItem().getImage_url())
+                    .imageUrl(oi.getRestaurantMenuItem().getImageUrl())
                     .build();
 
-            OrderItemForRestaurantResponse oiResponse = OrderItemForRestaurantResponse.builder()
+            OrderItemForRestaurantResponse oiResponse = OrderItemForRestaurantResponse
+                    .builder()
                     .orderItemId(oi.getId())
                     .menuItem(menuItem)
                     .quantity(oi.getQuantity())
@@ -290,7 +305,7 @@ public class OrderServiceImpl implements OrderService {
                 .phoneCustomer(order.getCustomerId().getPhone())
                 .restaurantName(order.getRestaurantId().getName())
                 .restaurantAddress(order.getRestaurantId().getAddress())
-                .deliveryTime(order.getTimestamp().plusMinutes(90))
+                .deliveryTime(order.getTimestamp().plusMinutes(DEFAULT_TIME_DELIVERY))
                 .build();
     }
 
@@ -302,12 +317,15 @@ public class OrderServiceImpl implements OrderService {
      * @return список заказов имеющие нужный статус
      */
     @Override
-    public List<OrderResponse> getOrderByRestaurantAndStatus(long restaurantId, String status) {
+    public List<OrderResponse> getOrderByRestaurantAndStatus(long restaurantId,
+                                                             String status) {
         //TODO ввести проверку и определение статуса что такой есть
-        Restaurant restaurant = feignToRestaurant.getRestaurantByIdForService(restaurantId);
+        Restaurant restaurant = feignToRestaurant
+                .getRestaurantByIdForService(restaurantId);
         OrderStatus orderStatus = mapOrderStatusForRestaurant(status);
 
-        List<Order> ordersByRestaurantIdAndStatus = orderRepository.getOrdersByRestaurantIdAndStatus(restaurant, orderStatus);
+        List<Order> ordersByRestaurantIdAndStatus = orderRepository
+                .getOrdersByRestaurantIdAndStatus(restaurant, orderStatus);
         List<OrderResponse> ordersList = new ArrayList<>();
         for (Order order : ordersByRestaurantIdAndStatus) {
             ordersList.add(mapOrderToOrderResponse(order));
@@ -329,7 +347,8 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.DELIVERY_PICKING);
         order = orderRepository.save(order);
 
-        ModelMessageOrder messageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ADD_COURIER);
+        ModelMessageOrder messageOrder = mapOrderToModelMessageOrder(order,
+                MessageType.PUSH, ActionType.ADD_COURIER);
         String modelMessageToString = mapModelMessageToString(messageOrder);
         rabbitMQProducerService.sendPushToNotificationsExchange(modelMessageToString);
     }
@@ -352,46 +371,61 @@ public class OrderServiceImpl implements OrderService {
         Order orderCheck = orderRepository.findById(uuid)
                 .orElseThrow(() -> new NoSuchElementException("Написать текст"));
 
+
+        //TODO заменить на списки со статусами
         if (orderCheck.getStatus().equals(orderStatus)) {
             ModelMessageOrder messageOrder = null;
             String modelMessageToString = null;
             if (orderStatus.equals(OrderStatus.CUSTOMER_PAID)) {
-                messageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ORDER_CUSTOMER_PAID);
+                messageOrder = mapOrderToModelMessageOrder(order,
+                        MessageType.PUSH, ActionType.ORDER_CUSTOMER_PAID);
             }
             if (orderStatus.equals(OrderStatus.CUSTOMER_CANCELLED)) {
-                messageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ORDER_CUSTOMER_CANCELLED);
+                messageOrder = mapOrderToModelMessageOrder(order,
+                        MessageType.PUSH, ActionType.ORDER_CUSTOMER_CANCELLED);
             }
             if (orderStatus.equals(OrderStatus.KITCHEN_ACCEPTED)) {
-                messageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ORDER_KITCHEN_ACCEPTED);
+                messageOrder = mapOrderToModelMessageOrder(order,
+                        MessageType.PUSH, ActionType.ORDER_KITCHEN_ACCEPTED);
             }
             if (orderStatus.equals(OrderStatus.KITCHEN_PREPARING)) {
-                messageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ORDER_KITCHEN_PREPARING);
+                messageOrder = mapOrderToModelMessageOrder(order,
+                        MessageType.PUSH, ActionType.ORDER_KITCHEN_PREPARING);
             }
             if (orderStatus.equals(OrderStatus.KITCHEN_DENIED)) {
-                messageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ORDER_KITCHEN_DENIED);
+                messageOrder = mapOrderToModelMessageOrder(order,
+                        MessageType.PUSH, ActionType.ORDER_KITCHEN_DENIED);
             }
             if (orderStatus.equals(OrderStatus.KITCHEN_REFUNDED)) {
-                messageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ORDER_KITCHEN_REFUNDED);
+                messageOrder = mapOrderToModelMessageOrder(order,
+                        MessageType.PUSH, ActionType.ORDER_KITCHEN_REFUNDED);
             }
             if (orderStatus.equals(OrderStatus.DELIVERY_PICKING)) {
-                messageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ORDER_DELIVERY_PICKING);
+                messageOrder = mapOrderToModelMessageOrder(order,
+                        MessageType.PUSH, ActionType.ORDER_DELIVERY_PICKING);
             }
             if (orderStatus.equals(OrderStatus.DELIVERY_DELIVERING)) {
-                messageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ORDER_DELIVERY_DELIVERING);
+                messageOrder = mapOrderToModelMessageOrder(order,
+                        MessageType.PUSH, ActionType.ORDER_DELIVERY_DELIVERING);
             }
             if (orderStatus.equals(OrderStatus.DELIVERY_COMPLETE)) {
-                messageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ORDER_DELIVERY_COMPLETE);
+                messageOrder = mapOrderToModelMessageOrder(order,
+                        MessageType.PUSH, ActionType.ORDER_DELIVERY_COMPLETE);
             }
             if (orderStatus.equals(OrderStatus.DELIVERY_DENIED)) {
-                messageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ORDER_DELIVERY_DENIED);
+                messageOrder = mapOrderToModelMessageOrder(order,
+                        MessageType.PUSH, ActionType.ORDER_DELIVERY_DENIED);
             }
             if (orderStatus.equals(OrderStatus.DELIVERY_REFUNDED)) {
-                messageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ORDER_DELIVERY_REFUNDED);
+                messageOrder = mapOrderToModelMessageOrder(order,
+                        MessageType.PUSH, ActionType.ORDER_DELIVERY_REFUNDED);
             }
             if (orderStatus.equals(OrderStatus.DELIVERY_PENDING)) {
-                messageOrder = mapOrderToModelMessageOrder(order, MessageType.PUSH, ActionType.ORDER_DELIVERY_PENDING);
+                messageOrder = mapOrderToModelMessageOrder(order,
+                        MessageType.PUSH, ActionType.ORDER_DELIVERY_PENDING);
                 modelMessageToString = mapModelMessageToString(messageOrder);
-                rabbitMQProducerService.sendOrderToDeliveriesExchange(modelMessageToString);
+                rabbitMQProducerService.sendOrderToDeliveriesExchange(
+                        modelMessageToString);
             }
             modelMessageToString = mapModelMessageToString(messageOrder);
             rabbitMQProducerService.sendPushToNotificationsExchange(modelMessageToString);
@@ -419,7 +453,8 @@ public class OrderServiceImpl implements OrderService {
                     .build();
             itemsResponse.add(oir);
         }
-        RestaurantResponse restaurantResponse = new RestaurantResponse(order.getRestaurantId().getName());
+        RestaurantResponse restaurantResponse = new RestaurantResponse(order
+                .getRestaurantId().getName());
         return OrderResponse.builder()
                 .id(order.getUuid())
                 .items(itemsResponse)
@@ -435,8 +470,8 @@ public class OrderServiceImpl implements OrderService {
      * @param listOrderItemRequest список позиций заказа из запроса (request)
      * @return список позиций в добавляемые в заказ  (entity)
      */
-    private List<OrderItem> mapOrderItemRequestToOrderItem(Order order
-            , List<OrderItemRequest> listOrderItemRequest) {
+    private List<OrderItem> mapOrderItemRequestToOrderItem(
+            Order order, List<OrderItemRequest> listOrderItemRequest) {
         List<OrderItem> listOrderItems = new ArrayList<>();
 
         List<Long> menuItems = new ArrayList<>();
@@ -444,7 +479,8 @@ public class OrderServiceImpl implements OrderService {
             menuItems.add(oir.getMenuItemId());
         }
 
-        List<RestaurantMenuItem> listMenuItems = feignToRestaurant.getListMenuItemForService(menuItems);
+        List<RestaurantMenuItem> listMenuItems = feignToRestaurant
+                .getListMenuItemForService(menuItems);
         Iterator<RestaurantMenuItem> iterItem = listMenuItems.iterator();
 
         for (OrderItemRequest oir : listOrderItemRequest) {
@@ -474,14 +510,30 @@ public class OrderServiceImpl implements OrderService {
      */
     private OrderStatus mapOrderStatusForRestaurant(String status) {
         //TODO перенести это в китчен сервис
-        if (status.equals("new")) return OrderStatus.CUSTOMER_PAID;
-        if (status.equals("cancel")) return OrderStatus.CUSTOMER_CANCELLED;
-        if (status.equals("accept")) return OrderStatus.KITCHEN_ACCEPTED;
-        if (status.equals("deny")) return OrderStatus.KITCHEN_DENIED;
-        if (status.equals("prepare")) return OrderStatus.KITCHEN_PREPARING;
-        if (status.equals("refund")) return OrderStatus.KITCHEN_REFUNDED;
-        if (status.equals("complete")) return OrderStatus.DELIVERY_PENDING;
-        return null;
+
+        OrderStatus orderStatus = null;
+        if (status.equals("new")) {
+            orderStatus = OrderStatus.CUSTOMER_PAID;
+        }
+        if (status.equals("cancel")) {
+            orderStatus = OrderStatus.CUSTOMER_CANCELLED;
+        }
+        if (status.equals("accept")) {
+            orderStatus = OrderStatus.KITCHEN_ACCEPTED;
+        }
+        if (status.equals("deny")) {
+            orderStatus = OrderStatus.KITCHEN_DENIED;
+        }
+        if (status.equals("prepare")) {
+            orderStatus = OrderStatus.KITCHEN_PREPARING;
+        }
+        if (status.equals("refund")) {
+            orderStatus = OrderStatus.KITCHEN_REFUNDED;
+        }
+        if (status.equals("complete")) {
+            orderStatus = OrderStatus.DELIVERY_PENDING;
+        }
+        return orderStatus;
     }
 
     /**
@@ -492,12 +544,15 @@ public class OrderServiceImpl implements OrderService {
      * @param actionType  тип события о котором надо оповестить
      * @return возвращается ответ для оправки push-сообщения  (entity)
      */
-    private ModelMessageOrder mapOrderToModelMessageOrder(Order order, MessageType messageType, ActionType actionType) {
+    private ModelMessageOrder mapOrderToModelMessageOrder(
+            Order order,
+            MessageType messageType, ActionType actionType) {
         return ModelMessageOrder.builder()
                 .uuid(order.getUuid())
                 .customerId(order.getCustomerId().getId())
                 .restaurantId(order.getRestaurantId().getId())
-                .courierId(order.getCourierId() == null ? 0 : order.getCourierId().getId())
+                .courierId(order
+                        .getCourierId() == null ? 0 : order.getCourierId().getId())
                 .orderStatus(order.getStatus())
                 .type(messageType)
                 .action(actionType)
@@ -515,7 +570,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             messageModelToString = objectMapper.writeValueAsString(modelMessageOrder);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
         }
         return messageModelToString;
     }

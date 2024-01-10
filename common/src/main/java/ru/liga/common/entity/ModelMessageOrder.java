@@ -1,5 +1,6 @@
 package ru.liga.common.entity;
 
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,8 +8,6 @@ import lombok.NoArgsConstructor;
 import ru.liga.common.enums.ActionType;
 import ru.liga.common.enums.MessageType;
 import ru.liga.common.enums.OrderStatus;
-
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor

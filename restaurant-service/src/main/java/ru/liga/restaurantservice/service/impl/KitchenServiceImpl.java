@@ -1,5 +1,7 @@
 package ru.liga.restaurantservice.service.impl;
 
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.liga.common.enums.OrderStatus;
@@ -8,9 +10,6 @@ import ru.liga.restaurantservice.dto.response.OrderItemForRestaurantResponse;
 import ru.liga.restaurantservice.dto.response.OrderResponse;
 import ru.liga.restaurantservice.feign_core.FeignToOrderService;
 import ru.liga.restaurantservice.service.KitchenService;
-
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Сервис для работы кухни с заказами
@@ -125,7 +124,8 @@ public class KitchenServiceImpl implements KitchenService {
      * @return список заказов имеющие нужный статус
      */
     @Override
-    public List<OrderResponse> getOrderByRestaurantAndStatus(long restaurantId, String status) {
+    public List<OrderResponse> getOrderByRestaurantAndStatus(long restaurantId,
+                                                             String status) {
         return feignToOrderService.getOrderByRestaurantAndStatus(restaurantId, status);
     }
 

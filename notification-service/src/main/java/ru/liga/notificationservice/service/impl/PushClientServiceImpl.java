@@ -2,7 +2,9 @@ package ru.liga.notificationservice.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import ru.liga.common.entity.ModelMessageOrder;
@@ -12,6 +14,7 @@ import ru.liga.notificationservice.service.PushClientService;
 /**
  * Сервис для отправки push уведомления на сторону клиента через RabbitMQ
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PushClientServiceImpl implements PushClientService {
@@ -30,37 +33,36 @@ public class PushClientServiceImpl implements PushClientService {
     @Override
     public void distributeMessages(ModelMessageOrder modelMessage) {
         ActionType actionType = modelMessage.getAction();
+        List<ActionType> actionStatusForCustomer = List.of(
+                ActionType.ORDER_CUSTOMER_CREATED,
+                ActionType.ORDER_CUSTOMER_CANCELLED, ActionType.ORDER_DELIVERY_PENDING,
+                ActionType.ORDER_DELIVERY_PICKING, ActionType.ORDER_DELIVERY_DENIED,
+                ActionType.ORDER_DELIVERY_REFUNDED);
 
-        if (actionType.equals(ActionType.ORDER_CUSTOMER_CREATED) ||
-                actionType.equals(ActionType.ORDER_CUSTOMER_CANCELLED) ||
-                actionType.equals(ActionType.ORDER_DELIVERY_PENDING) ||
-                actionType.equals(ActionType.ORDER_DELIVERY_PICKING) ||
-                actionType.equals(ActionType.ORDER_DELIVERY_DENIED) ||
-                actionType.equals(ActionType.ORDER_DELIVERY_REFUNDED)) {
+        List<ActionType> actionStatusForCustomerAndRestaurant = List.of(
+                ActionType.ORDER_CUSTOMER_PAID_AND_CANCELLED,
+                ActionType.ORDER_CUSTOMER_PAID, ActionType.ORDER_KITCHEN_ACCEPTED,
+                ActionType.ORDER_KITCHEN_PREPARING, ActionType.ORDER_KITCHEN_DENIED,
+                ActionType.ORDER_KITCHEN_REFUNDED);
+
+        List<ActionType> actionStatusForCustomerAndCourier = List.of(
+                ActionType.ORDER_DELIVERY_DELIVERING,
+                ActionType.ORDER_DELIVERY_COMPLETE, ActionType.ADD_COURIER);
+
+        if (actionStatusForCustomer.contains(actionType)) {
             sendPushToCustomer(modelMessage);
         }
-
-        if (actionType.equals(ActionType.ORDER_CUSTOMER_PAID_AND_CANCELLED) ||
-                actionType.equals(ActionType.ORDER_CUSTOMER_PAID) ||
-                actionType.equals(ActionType.ORDER_KITCHEN_ACCEPTED) ||
-                actionType.equals(ActionType.ORDER_KITCHEN_PREPARING) ||
-                actionType.equals(ActionType.ORDER_KITCHEN_DENIED) ||
-                actionType.equals(ActionType.ORDER_KITCHEN_REFUNDED)) {
+        if (actionStatusForCustomerAndRestaurant.contains(actionType)) {
             sendPushToCustomer(modelMessage);
             sendPushToRestaurant(modelMessage);
         }
-
-        if (actionType.equals(ActionType.ORDER_DELIVERY_DELIVERING) ||
-                actionType.equals(ActionType.ORDER_DELIVERY_COMPLETE) ||
-                actionType.equals(ActionType.ADD_COURIER)) {
+        if (actionStatusForCustomerAndCourier.contains(actionType)) {
             sendPushToCustomer(modelMessage);
             sendPushToCourier(modelMessage);
         }
-
         if (actionType.equals(ActionType.FIND_COURIER)) {
             sendPushToCourier(modelMessage);
         }
-
         if (actionType.equals(ActionType.NEW_ORDER_FOR_RESTAURANT)) {
             sendPushToRestaurant(modelMessage);
         }
@@ -119,7 +121,7 @@ public class PushClientServiceImpl implements PushClientService {
         try {
             messageModelToString = objectMapper.writeValueAsString(modelMessageOrder);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
         }
         return messageModelToString;
     }

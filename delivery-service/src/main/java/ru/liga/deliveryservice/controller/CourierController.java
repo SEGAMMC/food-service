@@ -15,30 +15,29 @@ import ru.liga.deliveryservice.service.CourierService;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/couriers")
 public class CourierController {
-	
-	private final CourierService courierService;
-	
-	/**
-	 * Получение информации о курьере
-	 *
-	 * @param courierId идентификационный номер курьера
-	 * @return возвращает информацию о курьере
-	 */
+    private final CourierService courierService;
+
+    /**
+     * Получение информации о курьере
+     *
+     * @param courierId идентификационный номер курьера
+     * @return возвращает информацию о курьере
+     */
     @GetMapping("/{courierId}")
     public ResponseEntity<CourierResponse> getCourierById(
-			@PathVariable long courierId) {
-		return ResponseEntity.ok(courierService.getCourierById(courierId));
-	}
+            @PathVariable long courierId) {
+        return ResponseEntity.ok(courierService.getCourierById(courierId));
+    }
 
-	/**
-	 * Изменение информации о курьере
-	 *
-	 * @param courierId      идентификационный номер курьера
-	 * @param courierRequest новая информация о курьере
-	 */
+    /**
+     * Изменение информации о курьере
+     *
+     * @param courierId      идентификационный номер курьера
+     * @param courierRequest новая информация о курьере
+     */
     @PutMapping("/{courierId}")
-    public void updateCourierInfo(@PathVariable long courierId
-			, @RequestBody UpdateCourierRequest courierRequest) {
-		courierService.updateCourierInfo(courierId, courierRequest);
+    public void updateCourierInfo(@PathVariable long courierId,
+                                  @RequestBody UpdateCourierRequest courierRequest) {
+        courierService.updateCourierInfo(courierId, courierRequest);
     }
 }

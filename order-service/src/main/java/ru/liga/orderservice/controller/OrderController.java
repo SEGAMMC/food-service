@@ -1,5 +1,7 @@
 package ru.liga.orderservice.controller;
 
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +12,6 @@ import ru.liga.orderservice.dto.request.OrderStatusRequest;
 import ru.liga.orderservice.dto.response.OrderPaymentResponse;
 import ru.liga.orderservice.dto.response.OrderResponse;
 import ru.liga.orderservice.service.OrderService;
-
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Контроллер для работы с заказами
@@ -32,9 +31,11 @@ public class OrderController {
      * @return возвращает ответ с номером заказа, секретным кодом и временем доставки
      */
     @PostMapping("/customers/{customerId}/orders")
-    public ResponseEntity<OrderPaymentResponse> createNewOrder(@PathVariable long customerId
-            , @RequestBody NewOrderRequest newOrderRequest) {
-        return ResponseEntity.ok(orderService.createNewOrder(customerId, newOrderRequest));
+    public ResponseEntity<OrderPaymentResponse> createNewOrder(
+            @PathVariable long customerId,
+            @RequestBody NewOrderRequest newOrderRequest) {
+        return ResponseEntity.ok(orderService.createNewOrder(customerId,
+                newOrderRequest));
     }
 
     /**
@@ -44,7 +45,8 @@ public class OrderController {
      * @return список заказов клиента
      */
     @GetMapping("/customers/{customerId}/orders")
-    public ResponseEntity<List<OrderResponse>> getOrdersByCustomerId(@PathVariable long customerId) {
+    public ResponseEntity<List<OrderResponse>> getOrdersByCustomerId(
+            @PathVariable long customerId) {
         return ResponseEntity.ok(orderService.getOrdersByCustomerId(customerId));
     }
 
@@ -102,7 +104,8 @@ public class OrderController {
      * @param orderStatus новый статус заказа
      */
     @PutMapping("/orders/{uuid}/status")
-    public void updateOrderStatus(@PathVariable UUID uuid, @RequestBody OrderStatusRequest orderStatus) {
+    public void updateOrderStatus(@PathVariable UUID uuid,
+                                  @RequestBody OrderStatusRequest orderStatus) {
         orderService.updateOrderStatus(uuid, orderStatus);
     }
 
@@ -124,7 +127,7 @@ public class OrderController {
      */
     @PutMapping("/orders/{uuid}/couriers")
     public void addCourierInOrder(@PathVariable UUID uuid, @RequestBody Courier courier) {
+        //TODO заменить ентити на dto
         orderService.addCourierInOrder(uuid, courier);
     }
-
 }

@@ -5,8 +5,8 @@ import ru.liga.deliveryservice.dto.response.CourierResponse;
 
 public interface CourierService {
 
-	CourierResponse getCourierById(long courierId);
+    CourierResponse getCourierById(long courierId);
 
-	void updateCourierInfo(long courierId, UpdateCourierRequest courierRequest);
+    void updateCourierInfo(long courierId, UpdateCourierRequest courierRequest);
 
 }

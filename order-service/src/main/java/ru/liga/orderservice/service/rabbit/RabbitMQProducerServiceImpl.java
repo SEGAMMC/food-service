@@ -29,7 +29,8 @@ public class RabbitMQProducerServiceImpl implements RabbitMQProducerService {
      */
     @Override
     public void sendOrderToRestaurantsExchange(String message) {
-        rabbitTemplate.convertAndSend(restaurantsExchange, restaurantsExchangeRoutingKey, message);
+        rabbitTemplate.convertAndSend(restaurantsExchange,
+                restaurantsExchangeRoutingKey, message);
     }
 
     /**
@@ -39,7 +40,8 @@ public class RabbitMQProducerServiceImpl implements RabbitMQProducerService {
      */
     @Override
     public void sendOrderToDeliveriesExchange(String message) {
-        rabbitTemplate.convertAndSend(deliveriesExchange, deliveriesExchangeRoutingKey, message);
+        rabbitTemplate.convertAndSend(deliveriesExchange,
+                deliveriesExchangeRoutingKey, message);
     }
 
     /**
@@ -49,7 +51,8 @@ public class RabbitMQProducerServiceImpl implements RabbitMQProducerService {
      */
     @Override
     public void sendPushToNotificationsExchange(String message) {
-        rabbitTemplate.convertAndSend(notificationsExchange, notificationsExchangeRoutingKey, message);
+        rabbitTemplate.convertAndSend(notificationsExchange,
+                notificationsExchangeRoutingKey, message);
     }
 
 }

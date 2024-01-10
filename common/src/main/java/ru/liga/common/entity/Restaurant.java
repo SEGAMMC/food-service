@@ -1,12 +1,12 @@
 package ru.liga.common.entity;
 
+import javax.persistence.*;
+import javax.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.liga.common.enums.RestaurantStatus;
-
-import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +19,8 @@ public class Restaurant {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restaurant_seq_gen")
-    @SequenceGenerator(name = "restaurant_seq_gen", sequenceName = "restaurant_seq",  allocationSize = 1)
+    @SequenceGenerator(name = "restaurant_seq_gen", sequenceName = "restaurant_seq",
+            allocationSize = 1)
     private long id;
 
     @Column(name = "name")

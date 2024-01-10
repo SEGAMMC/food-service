@@ -1,5 +1,7 @@
 package ru.liga.restaurantservice.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.liga.common.entity.Restaurant;
@@ -13,9 +15,6 @@ import ru.liga.restaurantservice.handler.NoSuchElementException;
 import ru.liga.restaurantservice.repository.MenuItemRepository;
 import ru.liga.restaurantservice.repository.RestaurantRepository;
 import ru.liga.restaurantservice.service.RestaurantService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Сервис для работы с ресторанами
@@ -45,8 +44,8 @@ public class RestaurantServiceImpl implements RestaurantService {
      * @param restaurantId   идентификационный номер ресторана
      * @param restaurantInfo новая информация о ресторане
      */
-    public void updateRestaurantById(long restaurantId
-            , RestaurantUpdateInfoRequest restaurantInfo) {
+    public void updateRestaurantById(long restaurantId,
+                                     RestaurantUpdateInfoRequest restaurantInfo) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
         Restaurant mapRestaurant = mapRestaurantInfoToRestaurant(restaurantInfo);
@@ -60,8 +59,8 @@ public class RestaurantServiceImpl implements RestaurantService {
      * @param restaurantId     идентификационный номер ресторана
      * @param restaurantStatus новый статус ресторана
      */
-    public void updateRestaurantStatus(long restaurantId
-            , RestaurantStatusRequest restaurantStatus) {
+    public void updateRestaurantStatus(long restaurantId,
+                                       RestaurantStatusRequest restaurantStatus) {
         updateRestaurantStatus(restaurantId, restaurantStatus.getRestaurantStatus());
     }
 
@@ -116,7 +115,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                     .name(menuItem.getName())
                     .description(menuItem.getDescription())
                     .price(menuItem.getPrice())
-                    .image_url(menuItem.getImage_url())
+                    .imageUrl(menuItem.getImageUrl())
                     .build();
             menuItemForListResponses.add(menuItemForList);
         }
@@ -129,8 +128,8 @@ public class RestaurantServiceImpl implements RestaurantService {
      * @param restaurantId     идентификационный номер ресторана
      * @param restaurantStatus новый статус ресторана
      */
-    private void updateRestaurantStatus(long restaurantId
-            , RestaurantStatus restaurantStatus) {
+    private void updateRestaurantStatus(long restaurantId,
+                                        RestaurantStatus restaurantStatus) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
         restaurant.setStatus(restaurantStatus);
@@ -145,7 +144,8 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .build();
     }
 
-    private Restaurant mapRestaurantInfoToRestaurant(RestaurantUpdateInfoRequest restaurantInfo) {
+    private Restaurant mapRestaurantInfoToRestaurant(
+            RestaurantUpdateInfoRequest restaurantInfo) {
         return Restaurant.builder()
                 .address(restaurantInfo.getAddress())
                 .name(restaurantInfo.getName())

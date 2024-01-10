@@ -1,5 +1,6 @@
 package ru.liga.restaurantservice.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,8 +10,6 @@ import ru.liga.restaurantservice.dto.request.UpdateItemStatusRequest;
 import ru.liga.restaurantservice.dto.request.UpdatePriceMenuItemRequest;
 import ru.liga.restaurantservice.dto.response.MenuItemResponse;
 import ru.liga.restaurantservice.service.MenuItemService;
-
-import java.util.List;
 
 /**
  * Контроллер для работы с меню ресторана
@@ -39,7 +38,8 @@ public class RestaurantMenuController {
      * @param newMenuItem параметры нового блюда
      */
     @PostMapping
-    public ResponseEntity<MenuItemResponse> createNewMenuItem(@RequestBody MenuItemRequest newMenuItem) {
+    public ResponseEntity<MenuItemResponse> createNewMenuItem(
+            @RequestBody MenuItemRequest newMenuItem) {
         return ResponseEntity.ok(menuItemService.createNewMenuItem(newMenuItem));
     }
 
@@ -50,8 +50,8 @@ public class RestaurantMenuController {
      * @param updateMenuItem параметры измененного блюда
      */
     @PutMapping("/{itemId}")
-    public void updateMenuItem(@PathVariable long itemId
-            , @RequestBody MenuItemRequest updateMenuItem) {
+    public void updateMenuItem(@PathVariable long itemId,
+                               @RequestBody MenuItemRequest updateMenuItem) {
         menuItemService.updateMenuItem(itemId, updateMenuItem);
     }
 
@@ -62,8 +62,9 @@ public class RestaurantMenuController {
      * @param updatePriceMenuItem новая цена блюда
      */
     @PutMapping("/{itemId}/price")
-    public void updatePriceItem(@PathVariable long itemId
-            , @RequestBody UpdatePriceMenuItemRequest updatePriceMenuItem) {
+    public void updatePriceItem(
+            @PathVariable long itemId,
+            @RequestBody UpdatePriceMenuItemRequest updatePriceMenuItem) {
         menuItemService.updatePriceMenuItem(itemId, updatePriceMenuItem);
     }
 
@@ -74,8 +75,9 @@ public class RestaurantMenuController {
      * @param updateItemStatusRequest новая статус блюда
      */
     @PutMapping("/{itemId}/status")
-    public void updateItemStatus(@PathVariable long itemId
-            , @RequestBody UpdateItemStatusRequest updateItemStatusRequest) {
+    public void updateItemStatus(
+            @PathVariable long itemId,
+            @RequestBody UpdateItemStatusRequest updateItemStatusRequest) {
         menuItemService.updateItemStatus(itemId, updateItemStatusRequest);
     }
 
@@ -129,8 +131,8 @@ public class RestaurantMenuController {
      * @return возвращает информацию о блюде из ресторана
      */
     @PostMapping("/list/service")
-    public List<RestaurantMenuItem> getListMenuItemForService(@RequestBody
-                                                              List<Long> listMenuItemId) {
+    public List<RestaurantMenuItem> getListMenuItemForService(
+            @RequestBody List<Long> listMenuItemId) {
         return menuItemService.getListMenuItemForService(listMenuItemId);
     }
 }

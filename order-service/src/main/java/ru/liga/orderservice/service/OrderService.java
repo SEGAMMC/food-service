@@ -1,5 +1,7 @@
 package ru.liga.orderservice.service;
 
+import java.util.List;
+import java.util.UUID;
 import ru.liga.common.entity.Courier;
 import ru.liga.common.entity.OrderInfo;
 import ru.liga.orderservice.dto.request.AddOrderItemRequest;
@@ -9,9 +11,6 @@ import ru.liga.orderservice.dto.request.UpdateOrderItemRequest;
 import ru.liga.orderservice.dto.response.OrderItemForRestaurantResponse;
 import ru.liga.orderservice.dto.response.OrderPaymentResponse;
 import ru.liga.orderservice.dto.response.OrderResponse;
-
-import java.util.List;
-import java.util.UUID;
 
 public interface OrderService {
     OrderResponse getOrderByUuid(UUID uuid);

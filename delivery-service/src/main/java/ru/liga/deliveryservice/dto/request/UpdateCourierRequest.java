@@ -1,8 +1,8 @@
 package ru.liga.deliveryservice.dto.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.liga.common.enums.CourierStatus;
 

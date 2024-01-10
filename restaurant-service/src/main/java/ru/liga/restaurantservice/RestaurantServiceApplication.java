@@ -9,9 +9,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 @EntityScan(basePackages = "ru.liga.common")
 public class RestaurantServiceApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(RestaurantServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(RestaurantServiceApplication.class, args);
+    }
 
 }

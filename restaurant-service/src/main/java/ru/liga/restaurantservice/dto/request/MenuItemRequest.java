@@ -1,13 +1,11 @@
 package ru.liga.restaurantservice.dto.request;
 
-
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.liga.common.enums.MenuItemStatus;
-
-import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
@@ -20,7 +18,7 @@ public class MenuItemRequest {
 
     private BigDecimal price;
 
-    private String image_url;
+    private String imageUrl;
 
     private String description;
 

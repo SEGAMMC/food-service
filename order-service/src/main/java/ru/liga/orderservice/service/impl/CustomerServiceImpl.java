@@ -57,7 +57,8 @@ public class CustomerServiceImpl implements CustomerService {
      * @param customerStatusRequest новый статус клиента
      */
     @Override
-    public void updateCustomerStatus(long id, CustomerStatusRequest customerStatusRequest) {
+    public void updateCustomerStatus(long id,
+                                     CustomerStatusRequest customerStatusRequest) {
         //TODO VALID request и преобразовать  в enum
 
         Customer customer = customerRepository.findById(id)
