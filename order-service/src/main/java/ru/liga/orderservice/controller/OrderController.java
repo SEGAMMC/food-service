@@ -27,7 +27,7 @@ public class OrderController {
      * Создание нового заказа
      *
      * @param customerId      идентификационный номер клиента
-     * @param newOrderRequest параметры заказа
+     * @param newOrderRequest содержимое заказа
      * @return возвращает ответ с номером заказа, секретным кодом и временем доставки
      */
     @PostMapping("/customers/{customerId}/orders")

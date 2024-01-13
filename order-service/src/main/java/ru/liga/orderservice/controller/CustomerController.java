@@ -3,9 +3,9 @@ package ru.liga.orderservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.liga.common.entity.Customer;
 import ru.liga.orderservice.dto.request.CustomerStatusRequest;
 import ru.liga.orderservice.dto.request.UpdateCustomerRequest;
+import ru.liga.orderservice.dto.response.CustomerResponse;
 import ru.liga.orderservice.service.CustomerService;
 
 /**
@@ -25,8 +25,8 @@ public class CustomerController {
      * @return возвращает информацию о клиенте
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable long id) {
-        Customer customer = customerService.getCustomerById(id);
+    public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable long id) {
+        CustomerResponse customer = customerService.getCustomerById(id);
         return ResponseEntity.ok(customer);
     }
 
@@ -37,7 +37,7 @@ public class CustomerController {
      * @param updateCustomerRequest новая информация о клиенте
      */
     @PutMapping("/{id}")
-    public void updateCustomer(@PathVariable Long id,
+    public void updateCustomer(@PathVariable long id,
                                @RequestBody UpdateCustomerRequest updateCustomerRequest) {
         customerService.updateCustomer(id, updateCustomerRequest);
     }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.liga.common.entity.Customer;
 import ru.liga.orderservice.dto.request.CustomerStatusRequest;
 import ru.liga.orderservice.dto.request.UpdateCustomerRequest;
+import ru.liga.orderservice.dto.response.CustomerResponse;
 import ru.liga.orderservice.handler.NoSuchElementException;
 import ru.liga.orderservice.repository.CustomerRepository;
 import ru.liga.orderservice.service.CustomerService;
@@ -25,9 +26,11 @@ public class CustomerServiceImpl implements CustomerService {
      * @return возвращает информацию о клиенте
      */
     @Override
-    public Customer getCustomerById(long id) {
-        return customerRepository.findById(id)
+    public CustomerResponse getCustomerById(long id) {
+        Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Написать текст"));
+        //todo убрать маппинг в отдельный файл
+        return mapCustomerToCustomerResponse(customer);
     }
 
     /**
@@ -66,5 +69,14 @@ public class CustomerServiceImpl implements CustomerService {
 
         customer.setStatus(customerStatusRequest.getCustomerStatus());
         customerRepository.save(customer);
+    }
+
+    private CustomerResponse mapCustomerToCustomerResponse(Customer customer) {
+        return CustomerResponse.builder()
+                .address(customer.getAddress())
+                .phone(customer.getPhone())
+                .email(customer.getEmail())
+                .status(customer.getStatus())
+                .build();
     }
 }
