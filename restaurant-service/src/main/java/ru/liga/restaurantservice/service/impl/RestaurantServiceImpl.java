@@ -24,6 +24,7 @@ import ru.liga.restaurantservice.service.RestaurantService;
 public class RestaurantServiceImpl implements RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
+
     private final MenuItemRepository menuItemRepository;
 
     /**
@@ -94,6 +95,25 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     /**
+     * Изменение статуса ресторана (основной метод)
+     *
+     * @param restaurantId     идентификационный номер ресторана
+     * @param restaurantStatus новый статус ресторана
+     */
+    private void updateRestaurantStatus(long restaurantId,
+                                        RestaurantStatus restaurantStatus) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
+        //TODO проверить что статус отличается
+        if (!restaurant.getStatus().equals(restaurantStatus)) {
+            restaurant.setStatus(restaurantStatus);
+            restaurantRepository.save(restaurant);
+        }
+        //TODO статус ресторана уже изменен
+        throw new NoSuchElementException("Написать сообщение");
+    }
+
+    /**
      * Получение списка блюд конкретного ресторана
      *
      * @param restaurantId идентификационный номер ресторана
@@ -109,8 +129,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         List<MenuItemForListResponse> menuItemForListResponses = new ArrayList<>();
 
         for (RestaurantMenuItem menuItem : restaurantMenuItems) {
-            MenuItemForListResponse menuItemForList = new MenuItemForListResponse();
-            menuItemForList = MenuItemForListResponse.builder()
+            MenuItemForListResponse menuItemForList = MenuItemForListResponse.builder()
                     .id(menuItem.getId())
                     .name(menuItem.getName())
                     .description(menuItem.getDescription())
@@ -122,20 +141,20 @@ public class RestaurantServiceImpl implements RestaurantService {
         return menuItemForListResponses;
     }
 
+    //Feign methods
+
     /**
-     * Изменение статуса ресторана (основной метод)
+     * Получение информации о ресторане по его номеру для сервисов
      *
-     * @param restaurantId     идентификационный номер ресторана
-     * @param restaurantStatus новый статус ресторана
+     * @param restaurantId идентификационный номер ресторана
+     * @return информация о ресторане для сервисов
      */
-    private void updateRestaurantStatus(long restaurantId,
-                                        RestaurantStatus restaurantStatus) {
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+    public Restaurant getRestaurantByIdForService(long restaurantId) {
+        return restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
-        restaurant.setStatus(restaurantStatus);
-        restaurantRepository.save(restaurant);
     }
 
+    //TODO маппинг вынести отдельно
     private RestaurantResponse mapRestaurantToRestaurantResponse(Restaurant restaurant) {
         return RestaurantResponse.builder()
                 .name(restaurant.getName())
@@ -153,16 +172,4 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .build();
     }
 
-    //Feign methods
-
-    /**
-     * Получение информации о ресторане по его номеру для сервисов
-     *
-     * @param restaurantId идентификационный номер ресторана
-     * @return информация о ресторане для сервисов
-     */
-    public Restaurant getRestaurantByIdForService(long restaurantId) {
-        return restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
-    }
 }

@@ -118,9 +118,21 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     @Override
     public void deleteMenuItem(long itemId) {
-        updateItemStatus(itemId, MenuItemStatus.INACTIVE);
+        updateItemStatus(itemId, MenuItemStatus.DELETE);
     }
 
+    /**
+     * Получение информации о блюде по его номеру для сервисов
+     *
+     * @param menuItemId идентификационный номер блюда
+     * @return информация о блюде для ресторана
+     */
+    @Override
+    public MenuItemResponse getMenuItemByIdForService(long menuItemId) {
+        RestaurantMenuItem menuItem = menuItemRepository.findById(menuItemId)
+                .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
+        return mapMenuItemToMenuItemResponse(menuItem);
+    }
 
     /**
      * Изменение статуса блюда в меню ресторана
@@ -135,6 +147,7 @@ public class MenuItemServiceImpl implements MenuItemService {
         menuItemRepository.save(menuItem);
     }
 
+    //TODO вынести маппинг отдельно
     private MenuItemResponse mapMenuItemToMenuItemResponse(RestaurantMenuItem menuItem) {
         return MenuItemResponse.builder()
                 .id(menuItem.getId())
@@ -147,6 +160,7 @@ public class MenuItemServiceImpl implements MenuItemService {
                 .build();
     }
 
+    //TODO вынести маппинг отдельно
     private RestaurantMenuItem mapMenuItemRequestToMenuItem(MenuItemRequest newMenuItem) {
         Restaurant restaurant = restaurantRepository.findById(
                         newMenuItem.getRestaurantId())
@@ -161,20 +175,6 @@ public class MenuItemServiceImpl implements MenuItemService {
                 .build();
     }
 
-    //Feign methods
-
-    /**
-     * Получение информации о блюде по его номеру для сервисов
-     *
-     * @param menuItemId идентификационный номер блюда
-     * @return информация о блюде для ресторана
-     */
-    @Override
-    public RestaurantMenuItem getMenuItemByIdForService(long menuItemId) {
-        return menuItemRepository.findById(menuItemId)
-                .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
-    }
-
     /**
      * Получение списка информации о блюде из меню ресторана от restaurant-service
      *
@@ -182,12 +182,12 @@ public class MenuItemServiceImpl implements MenuItemService {
      * @return возвращает информацию о блюде из ресторана
      */
     @Override
-    public List<RestaurantMenuItem> getListMenuItemForService(List<Long> listMenuItemId) {
-        List<RestaurantMenuItem> listItem = new ArrayList<>();
+    public List<MenuItemResponse> getListMenuItemForService(List<Long> listMenuItemId) {
+        List<MenuItemResponse> listItem = new ArrayList<>();
         for (Long menuItems : listMenuItemId) {
             RestaurantMenuItem rmi = menuItemRepository.findById(menuItems)
                     .orElseThrow(() -> new NoSuchElementException("Написать сообщение2"));
-            listItem.add(rmi);
+            listItem.add(mapMenuItemToMenuItemResponse(rmi));
         }
         return listItem;
     }

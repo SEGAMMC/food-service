@@ -26,4 +26,6 @@ public interface KitchenService {
 
     List<OrderResponse> getOrderByRestaurantAndStatus(@RequestParam long restaurantId,
                                                       @RequestParam String status);
+
+    void updateOrderStatusDelivery(UUID uuid);
 }

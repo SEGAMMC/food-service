@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.liga.restaurantservice.dto.request.OrderStatusRequest;
 import ru.liga.restaurantservice.dto.response.OrderItemForRestaurantResponse;
 import ru.liga.restaurantservice.dto.response.OrderResponse;
+import ru.liga.restaurantservice.dto.response.UpdateStatusResponse;
 
 @FeignClient(name = "order-service", url = "http://localhost:8081/api/v1/orders")
 public interface FeignToOrderService {
@@ -26,8 +27,8 @@ public interface FeignToOrderService {
      * @param orderStatus новый статус заказа
      */
     @PutMapping("/{uuid}/status")
-    void updateOrderStatus(@PathVariable UUID uuid,
-                           @RequestBody OrderStatusRequest orderStatus);
+    UpdateStatusResponse updateOrderStatus(@PathVariable UUID uuid,
+                                           @RequestBody OrderStatusRequest orderStatus);
 
     /**
      * Получение списка заказов для конкретного ресторана и статуса заказа
@@ -41,4 +42,3 @@ public interface FeignToOrderService {
                                                       @RequestParam String status);
 
 }
-

@@ -103,7 +103,7 @@ public class KitchenController {
     }
 
     /**
-     * Курьер забрал заказ, изменяет статус заказа на DELIVERY_PICKING
+     * Заказ собирается, изменяет статус заказа на DELIVERY_PICKING
      *
      * @param uuid идентификационный номер заказа
      */
@@ -113,7 +113,7 @@ public class KitchenController {
     }
 
     /**
-     * Курьер забрал заказ, изменяет статус заказа на DELIVERY_PICKING
+     * Заказ готов, изменяет статус заказа на DELIVERY_PENDING
      *
      * @param uuid идентификационный номер заказа
      */
@@ -122,4 +122,13 @@ public class KitchenController {
         kitchenService.updateOrderStatusPending(uuid);
     }
 
+    /**
+     * Курьер забрал заказ, изменяет статус заказа на DELIVERY_DELIVERING
+     *
+     * @param uuid идентификационный номер заказа
+     */
+    @PutMapping("/orders/{uuid}/status/delivery")
+    public void updateOrderStatusDelivery(@PathVariable UUID uuid) {
+        kitchenService.updateOrderStatusDelivery(uuid);
+    }
 }

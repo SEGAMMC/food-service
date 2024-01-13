@@ -21,6 +21,13 @@ public class ListenerServiceImpl implements ListenerService {
     private final RabbitMQProducerService rabbitMQProducerService;
     private final ObjectMapper objectMapper;
 
+    /**
+     * Метод отслеживающий очередь OrdersNewForRestaurant RabbitMQ
+     * перенаправляет заказ в notification-service c PUSH статусом
+     *
+     * @param message сообщение с полученным новым заказом
+     * в строковом представлении
+     */
     @SneakyThrows
     @RabbitListener(queues = "OrdersNewForRestaurant")
     public void messageListenerContainer(String message) {
@@ -37,6 +44,8 @@ public class ListenerServiceImpl implements ListenerService {
                 mapModelMessageToString(messageOrderToPush));
     }
 
+
+    //TODO вынести маппинг в отдельный класс
     /**
      * Маппинг сообщения типа ModelMessageOrder в String
      *

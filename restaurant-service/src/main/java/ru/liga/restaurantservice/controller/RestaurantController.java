@@ -4,7 +4,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.liga.common.entity.Restaurant;
 import ru.liga.restaurantservice.dto.request.RestaurantStatusRequest;
 import ru.liga.restaurantservice.dto.request.RestaurantUpdateInfoRequest;
 import ru.liga.restaurantservice.dto.response.MenuItemForListResponse;
@@ -30,8 +29,7 @@ public class RestaurantController {
     @GetMapping("/{restaurantId}")
     public ResponseEntity<RestaurantResponse> getRestaurantById(
             @PathVariable long restaurantId) {
-        return ResponseEntity.ok(restaurantService
-                .getRestaurantById(restaurantId));
+        return ResponseEntity.ok(restaurantService.getRestaurantById(restaurantId));
     }
 
     /**
@@ -103,17 +101,4 @@ public class RestaurantController {
                 .getMenuItemsRestaurant(restaurantId));
     }
 
-    //Feign metods
-
-    /**
-     * Получение информации о ресторане по его номеру для сервисов
-     *
-     * @param restaurantId идентификационный номер ресторана
-     * @return информация о ресторане
-     */
-    @GetMapping("/{restaurantId}/service")
-    public Restaurant getRestaurantByIdForService(
-            @PathVariable long restaurantId) {
-        return restaurantService.getRestaurantByIdForService(restaurantId);
-    }
 }

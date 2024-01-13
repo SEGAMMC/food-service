@@ -8,7 +8,9 @@ import ru.liga.common.enums.OrderStatus;
 import ru.liga.restaurantservice.dto.request.OrderStatusRequest;
 import ru.liga.restaurantservice.dto.response.OrderItemForRestaurantResponse;
 import ru.liga.restaurantservice.dto.response.OrderResponse;
+import ru.liga.restaurantservice.dto.response.UpdateStatusResponse;
 import ru.liga.restaurantservice.feign_core.FeignToOrderService;
+import ru.liga.restaurantservice.handler.NoSuchElementException;
 import ru.liga.restaurantservice.service.KitchenService;
 
 /**
@@ -21,18 +23,26 @@ public class KitchenServiceImpl implements KitchenService {
     private final FeignToOrderService feignToOrderService;
 
     /**
-     * Обновление статуса заказа
+     * Обновление статуса заказа по идентификационному номеру
+     * и новому статусу через json
      *
      * @param uuid        идентификационный номер заказа
      * @param orderStatus новый статус заказа
      */
     @Override
     public void updateOrderStatusByBody(UUID uuid, OrderStatusRequest orderStatus) {
-        updateOrderStatus(uuid, orderStatus.getOrderStatus());
+        for (OrderStatus s : OrderStatus.values()) {
+            if (s.equals(orderStatus.getOrderStatus())) {
+                updateOrderStatus(uuid, orderStatus.getOrderStatus());
+            }
+        }
+        //ToDO Придумать реализацию ошибки
+        throw new NoSuchElementException("Написать сообщение");
     }
 
     /**
      * Изменение статуса заказа на KITCHEN_ACCEPTED
+     * по идентификационному номеру
      *
      * @param uuid идентификационный номер заказа
      */
@@ -49,16 +59,6 @@ public class KitchenServiceImpl implements KitchenService {
     @Override
     public void updateOrderStatusPrepair(UUID uuid) {
         updateOrderStatus(uuid, OrderStatus.KITCHEN_PREPARING);
-    }
-
-    /**
-     * Изменение статуса заказа на DELIVERY_PENDING
-     *
-     * @param uuid идентификационный номер заказа
-     */
-    @Override
-    public void updateOrderStatusPending(UUID uuid) {
-        updateOrderStatus(uuid, OrderStatus.DELIVERY_PENDING);
     }
 
     /**
@@ -82,15 +82,35 @@ public class KitchenServiceImpl implements KitchenService {
     }
 
     /**
+     * Изменение статуса заказа на DELIVERY_PENDING
+     *
+     * @param uuid идентификационный номер заказа
+     */
+    @Override
+    public void updateOrderStatusPending(UUID uuid) {
+        updateOrderStatus(uuid, OrderStatus.DELIVERY_PENDING);
+    }
+
+    /**
      * Изменение статуса заказа на DELIVERY_PICKING
      *
      * @param uuid идентификационный номер заказа
      */
     @Override
     public void updateOrderStatusPick(UUID uuid) {
+        updateOrderStatus(uuid, OrderStatus.DELIVERY_PICKING);
+    }
+
+    /**
+     * Изменение статуса заказа на DELIVERY_DELIVERING
+     *
+     * @param uuid идентификационный номер заказа
+     */
+    @Override
+    public void updateOrderStatusDelivery(UUID uuid) {
         //TODO перед эти проверить назначен ли курьер в заказе
         //и что статус соответсвтует OrderStatus.DELIVERY_Pending
-        updateOrderStatus(uuid, OrderStatus.DELIVERY_PICKING);
+        updateOrderStatus(uuid, OrderStatus.DELIVERY_DELIVERING);
     }
 
     /**
@@ -100,13 +120,18 @@ public class KitchenServiceImpl implements KitchenService {
      * @param orderStatus новый статус заказа
      */
     private void updateOrderStatus(UUID uuid, OrderStatus orderStatus) {
-        feignToOrderService.updateOrderStatus(uuid, new OrderStatusRequest(orderStatus));
+        UpdateStatusResponse updateStatus = feignToOrderService
+                .updateOrderStatus(uuid, new OrderStatusRequest(orderStatus));
+        if (updateStatus.isError()) {
+            //TODO придумать реализацию ошибки
+            throw new NoSuchElementException(updateStatus.getMessage());
+        }
     }
 
     //Feign-methods
 
     /**
-     * Получение списка позиций заказа для ресторана через OrderService
+     * Получение списка позиций заказа через OrderService
      *
      * @param uuid идентификационный номер заказа
      * @return возращает список позиций заказа и информация о них
@@ -117,7 +142,7 @@ public class KitchenServiceImpl implements KitchenService {
     }
 
     /**
-     * Получение списка заказов для конкретного ресторана и статуса заказа
+     * Получение списка заказов для нужного ресторана и статуса заказа
      *
      * @param restaurantId идентификационный номер ресторана
      * @param status       статус, по которому происходит фильтрация
@@ -128,6 +153,4 @@ public class KitchenServiceImpl implements KitchenService {
                                                              String status) {
         return feignToOrderService.getOrderByRestaurantAndStatus(restaurantId, status);
     }
-
-
 }

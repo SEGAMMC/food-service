@@ -4,7 +4,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.liga.common.entity.RestaurantMenuItem;
 import ru.liga.restaurantservice.dto.request.MenuItemRequest;
 import ru.liga.restaurantservice.dto.request.UpdateItemStatusRequest;
 import ru.liga.restaurantservice.dto.request.UpdatePriceMenuItemRequest;
@@ -112,6 +111,7 @@ public class RestaurantMenuController {
     }
 
     //Feign methods
+    //TODO возможно надо изменить и не обмениваться сущностями в открытом виде
 
     /**
      * Получение информации о блюде по его номеру для сервисов
@@ -120,7 +120,7 @@ public class RestaurantMenuController {
      * @return информация о блюде для ресторана
      */
     @GetMapping("/{menuItemId}/service")
-    public RestaurantMenuItem getMenuItemByIdForService(@PathVariable long menuItemId) {
+    public MenuItemResponse getMenuItemByIdForService(@PathVariable long menuItemId) {
         return menuItemService.getMenuItemByIdForService(menuItemId);
     }
 
@@ -131,7 +131,7 @@ public class RestaurantMenuController {
      * @return возвращает информацию о блюде из ресторана
      */
     @PostMapping("/list/service")
-    public List<RestaurantMenuItem> getListMenuItemForService(
+    public List<MenuItemResponse> getListMenuItemForService(
             @RequestBody List<Long> listMenuItemId) {
         return menuItemService.getListMenuItemForService(listMenuItemId);
     }

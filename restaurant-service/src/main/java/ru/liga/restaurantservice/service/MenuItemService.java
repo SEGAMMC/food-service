@@ -1,7 +1,6 @@
 package ru.liga.restaurantservice.service;
 
 import java.util.List;
-import ru.liga.common.entity.RestaurantMenuItem;
 import ru.liga.restaurantservice.dto.request.MenuItemRequest;
 import ru.liga.restaurantservice.dto.request.UpdateItemStatusRequest;
 import ru.liga.restaurantservice.dto.request.UpdatePriceMenuItemRequest;
@@ -24,7 +23,7 @@ public interface MenuItemService {
 
     void deleteMenuItem(long id);
 
-    RestaurantMenuItem getMenuItemByIdForService(long menuItemId);
+    MenuItemResponse getMenuItemByIdForService(long menuItemId);
 
-    List<RestaurantMenuItem> getListMenuItemForService(List<Long> listMenuItemId);
+    List<MenuItemResponse> getListMenuItemForService(List<Long> listMenuItemId);
 }
